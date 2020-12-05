@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Dashboard"></activity>
+        <activity android:name=".Dashboard"
+            android:theme="@style/AppTheme.noActionBar">
+
+        </activity>
         <activity android:name=".Singup"
             android:label="SingUp"/>
         <activity android:name=".Login"

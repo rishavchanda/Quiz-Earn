@@ -35,7 +35,9 @@ public class Singup extends AppCompatActivity {
         database=FirebaseFirestore.getInstance();
 
         dialog = new ProgressDialog(this);
+        dialog.setTitle("Signing");
         dialog.setMessage("We are creating new account");
+        dialog.setCanceledOnTouchOutside(false);
 
         nameBox=findViewById(R.id.FullName);
         emailBox=findViewById(R.id.Emailtxt);
