@@ -2,6 +2,8 @@ package com.rishav.quizearn;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,13 +17,31 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+
 public class Dashboard extends AppCompatActivity {
     ImageView logout;
+    RecyclerView category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+
+        category=findViewById(R.id.category);
+        ArrayList<CategoryModel> categories = new ArrayList<>();
+        categories.add(new CategoryModel("","Mathematics",""));
+        categories.add(new CategoryModel("","Mathematics",""));
+        categories.add(new CategoryModel("","Mathematics",""));
+        categories.add(new CategoryModel("","Mathematics",""));
+        categories.add(new CategoryModel("","Mathematics",""));
+        categories.add(new CategoryModel("","Mathematics",""));
+
+
+        CategoryAdapter adapter = new CategoryAdapter(this,categories);
+        category.setLayoutManager(new GridLayoutManager(this,2));
+        category.setAdapter(adapter);
 
         logout=findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
