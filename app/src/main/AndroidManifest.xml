@@ -12,15 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Quiz"
-            android:theme="@style/AppTheme.noActionBar">
-
-        </activity>
+        <activity android:name=".Result"></activity>
+        <activity
+            android:name=".Quiz"
+            android:theme="@style/AppTheme.noActionBar"></activity>
         <activity
             android:name=".Dashboard"
-            android:theme="@style/AppTheme.noActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.noActionBar"></activity>
         <activity
             android:name=".Singup"
             android:label="SingUp" />

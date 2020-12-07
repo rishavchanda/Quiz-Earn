@@ -38,7 +38,7 @@
                         android:layout_weight="1">
 
                         <TextView
-                            android:id="@+id/textView8"
+                            android:id="@+id/timer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="20dp"
@@ -54,7 +54,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView9"
+                            android:id="@+id/quixcounter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="20dp"
@@ -97,7 +97,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/question"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -139,7 +139,7 @@
                     app:srcCompat="@drawable/fiftyfiftyline" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/option1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -158,7 +158,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/option2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -167,13 +167,13 @@
                     android:text="TextView"
                     android:textColor="#000000"
                     android:textSize="17sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView11"
+                    app:layout_constraintEnd_toEndOf="@+id/option1"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/textView11"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                    app:layout_constraintStart_toStartOf="@+id/option1"
+                    app:layout_constraintTop_toBottomOf="@+id/option1" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/option3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -182,12 +182,12 @@
                     android:text="TextView"
                     android:textColor="#000000"
                     android:textSize="17sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView12"
-                    app:layout_constraintStart_toStartOf="@+id/textView12"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                    app:layout_constraintEnd_toEndOf="@+id/option2"
+                    app:layout_constraintStart_toStartOf="@+id/option2"
+                    app:layout_constraintTop_toBottomOf="@+id/option2" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/option4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -196,40 +196,44 @@
                     android:text="TextView"
                     android:textColor="#000000"
                     android:textSize="17sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView13"
-                    app:layout_constraintStart_toStartOf="@+id/textView13"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                    app:layout_constraintEnd_toEndOf="@+id/option3"
+                    app:layout_constraintStart_toStartOf="@+id/option3"
+                    app:layout_constraintTop_toBottomOf="@+id/option3" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/quiz"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/spin_wheelbtn"
+                    android:padding="15dp"
                     android:text="Cancel"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toStartOf="@+id/button4"
+                    android:textSize="17sp"
+                    app:layout_constraintEnd_toStartOf="@+id/next"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@+id/view3"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    app:layout_constraintStart_toStartOf="@+id/option4"
+                    app:layout_constraintTop_toBottomOf="@+id/option4" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/next"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/invitebtn"
+                    android:padding="15dp"
                     android:text="Next"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="@+id/view3"
+                    android:textSize="17sp"
+                    app:layout_constraintEnd_toEndOf="@+id/option4"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/button3"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    app:layout_constraintStart_toEndOf="@+id/quiz"
+                    app:layout_constraintTop_toBottomOf="@+id/option4" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
