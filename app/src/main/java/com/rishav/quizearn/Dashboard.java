@@ -31,13 +31,12 @@ public class Dashboard extends AppCompatActivity {
 
         category=findViewById(R.id.category);
         ArrayList<CategoryModel> categories = new ArrayList<>();
-        categories.add(new CategoryModel("","Mathematics",""));
-        categories.add(new CategoryModel("","Mathematics",""));
-        categories.add(new CategoryModel("","Mathematics",""));
-        categories.add(new CategoryModel("","Mathematics",""));
-        categories.add(new CategoryModel("","Mathematics",""));
-        categories.add(new CategoryModel("","Mathematics",""));
-
+        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
+        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
+        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
+        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
+        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
+        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
 
         CategoryAdapter adapter = new CategoryAdapter(this,categories);
         category.setLayoutManager(new GridLayoutManager(this,2));
