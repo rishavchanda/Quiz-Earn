@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/currentCoins" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/paypalEmailid"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -94,7 +94,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/sendRequest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -103,7 +103,7 @@
         android:text="Send Request"
         android:textColor="#fff"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintEnd_toEndOf="@+id/paypalEmailid"
+        app:layout_constraintStart_toStartOf="@+id/paypalEmailid"
+        app:layout_constraintTop_toBottomOf="@+id/paypalEmailid" />
 </androidx.constraintlayout.widget.ConstraintLayout>
