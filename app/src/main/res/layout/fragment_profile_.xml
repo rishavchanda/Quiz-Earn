@@ -9,13 +9,13 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@drawable/logo" />
 
     <EditText
         android:id="@+id/FullName"
@@ -54,6 +54,7 @@
         android:drawableTint="#7E7D7D"
         android:ems="10"
         android:hint="Email id"
+
         android:inputType="textEmailAddress"
         android:padding="15dp"
         android:textSize="20dp"
@@ -77,6 +78,7 @@
         android:drawableTint="#7E7D7D"
         android:ems="10"
         android:hint="Password"
+
         android:inputType="textPassword"
         android:padding="15dp"
         android:textSize="20dp"

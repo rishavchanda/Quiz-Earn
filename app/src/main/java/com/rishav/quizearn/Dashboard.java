@@ -1,7 +1,9 @@
 package com.rishav.quizearn;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,36 +18,65 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.rishav.quizearn.databinding.ActivityDashboardBinding;
+import com.rishav.quizearn.databinding.ActivityMainBinding;
+import com.rishav.quizearn.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
 
+import me.ibrahimsn.lib.OnItemSelectedListener;
+
 public class Dashboard extends AppCompatActivity {
     ImageView logout;
-    RecyclerView category;
+    ActivityDashboardBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content, new HomeFragment());
+        transaction.commit();
+
+       binding.bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
+           @Override
+           public boolean onItemSelect(int i) {
+               FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+               switch (i){
+                   case 0:
+                       transaction.replace(R.id.content, new HomeFragment());
+                       transaction.commit();
+                       break;
+                   case 1:
+                       transaction.replace(R.id.content, new Leaderboard_Fragment());
+                       transaction.commit();
+                       break;
+                   case 2:
+                       transaction.replace(R.id.content, new WalletFragment());
+                       transaction.commit();
+                       break;
+                   case 3:
+                       transaction.replace(R.id.content, new Profile_Fragment());
+                       transaction.commit();
+                       break;
+               }
+               return false;
+           }
+       });
 
 
-        category=findViewById(R.id.category);
-        ArrayList<CategoryModel> categories = new ArrayList<>();
-        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
-        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
-        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
-        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
-        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
-        categories.add(new CategoryModel("","Mathematics","https://cdn.dribbble.com/users/2552641/screenshots/6549959/icon_challenge_originals_edu2_1x.jpg"));
 
-        CategoryAdapter adapter = new CategoryAdapter(this,categories);
-        category.setLayoutManager(new GridLayoutManager(this,2));
-        category.setAdapter(adapter);
-
-        logout=findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+       binding.logout.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
                 AlertDialog.Builder logoutDialog = new AlertDialog.Builder(v.getContext());
                 logoutDialog.setTitle("Logout");
                 logoutDialog.setMessage("If you want to Logout then click ok.");
