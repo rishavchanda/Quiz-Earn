@@ -4,12 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.rishav.quizearn.databinding.ActivityQuizBinding;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Quiz extends AppCompatActivity {
 
@@ -18,6 +24,10 @@ public class Quiz extends AppCompatActivity {
     ArrayList<Question> questions;
     int index=0;
     Question question;
+    CountDownTimer timer;
+    int correctAnswers = 0;
+
+    FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +35,62 @@ public class Quiz extends AppCompatActivity {
         binding = ActivityQuizBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-       questions=new ArrayList<>();
+        database = FirebaseFirestore.getInstance();
+        questions=new ArrayList<>();
+        final String catId = getIntent().getStringExtra("catId");
+         Random random = new Random();
+        final int rand = random.nextInt(5);
+        database.collection("categories")
+                .document(catId)
+                .collection("questions")
+                .whereGreaterThanOrEqualTo("index",rand)
+                .orderBy("index")
+                .limit(3)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.getDocuments().size() < 5){
+                    database.collection("categories")
+                            .document(catId)
+                            .collection("questions")
+                            .whereLessThanOrEqualTo("index",rand)
+                            .orderBy("index")
+                            .limit(3)
+                            .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for(DocumentSnapshot snapshot : queryDocumentSnapshots){
+                                    Question question= snapshot.toObject(Question.class);
+                                    questions.add(question);
+                                 }
+                            setNextQuestion();
+                        }
+                    });
+                }else{
+                           for(DocumentSnapshot snapshot : queryDocumentSnapshots){
+                               Question question= snapshot.toObject(Question.class);
+                               questions.add(question);
+                           }
+                    setNextQuestion();
+                    }
+                }
+        });
 
-       questions.add(new Question("What is earth?"
-       ,"Planet","Sun","Human","Car","Planet"));
-        questions.add(new Question("What is you?"
-                ,"Planet","Sun","Human","Car","Human"));
-        questions.add(new Question("What is light?"
-                ,"Planet","Sun","Human","Car","Sun"));
-        questions.add(new Question("What is earth?"
-                ,"Planet","Sun","Human","Car","Planet"));
+        resetTimer();
 
-        setNextQuestion();
+    }
+    void resetTimer(){
+        timer = new CountDownTimer(30000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                binding.timer.setText(String.valueOf(millisUntilFinished/1000));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
     }
 
     void showAnswer(){
@@ -51,7 +105,12 @@ public class Quiz extends AppCompatActivity {
     }
 
     void setNextQuestion(){
+        if(timer!=null){
+            timer.cancel();
+        }
+        timer.start();
         if(index < questions.size()){
+            binding.quixcounter.setText(String.format("%d/%d",(index+1),questions.size()));
             question = questions.get(index);
             binding.question.setText(question.getQuestion());
             binding.option1.setText(question.getOption1());
@@ -64,6 +123,7 @@ public class Quiz extends AppCompatActivity {
     void checkAnswer(TextView textview){
         String selectedAnswer = textview.getText().toString();
         if(selectedAnswer.equals(question.getAnswer())){
+            correctAnswers++;
             textview.setBackground(getResources().getDrawable(R.drawable.right_opt));
         }else {
             showAnswer();
@@ -84,16 +144,23 @@ public class Quiz extends AppCompatActivity {
                   case R.id.option2:
                   case R.id.option3:
                   case R.id.option4:
+                      if (timer!=null){
+                          timer.cancel();
+                      }
                       TextView selected = (TextView)view;
                       checkAnswer(selected);
                       break;
                   case R.id.next:
                       reset();
-                      if(index < questions.size()){
+                      if(index <= questions.size()){
                           index++;
+                          resetTimer();
                           setNextQuestion();
                       }else{
-                          startActivity(new Intent(this,Result.class));
+                          Intent intent = new Intent(Quiz.this,Result.class);
+                          intent.putExtra("correct",correctAnswers);
+                          intent.putExtra("total",questions.size());
+                          startActivity(intent);
                       }
                       break;
               }
