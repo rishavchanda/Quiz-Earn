@@ -3,6 +3,8 @@ package com.rishav.quizearn;
 public class Users {
 
     private String name,email,pass,code;
+    private long coins =25 ;
+
 
     public Users(){
 
@@ -39,4 +41,12 @@ public class Users {
     public void setPass(String pass) {
         this.pass = pass;
     }
+    public long getCoins() {
+        return coins;
+    }
+
+    public void setCoins(long coins) {
+        this.coins = coins;
+    }
+
 }
