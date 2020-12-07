@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity {
         forgotpass=findViewById(R.id.forgotpass);
 
         if(auth.getCurrentUser() != null){
-            startActivity(new Intent(Login.this,Result.class));
+            startActivity(new Intent(Login.this,Dashboard.class));
             finish();
         }
 
