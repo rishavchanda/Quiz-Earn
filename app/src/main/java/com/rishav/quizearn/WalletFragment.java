@@ -47,6 +47,7 @@ public class WalletFragment extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 user = documentSnapshot.toObject(Users.class);
                 binding.currentCoins.setText(String.valueOf(user.getCoins()));
+                binding.progress.setVisibility(View.GONE);
             }
         });
 

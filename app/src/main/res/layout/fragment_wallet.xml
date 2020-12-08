@@ -35,20 +35,21 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:padding="10dp"
         android:text="Current Coins"
-        app:layout_constraintEnd_toEndOf="@+id/view3"
-        app:layout_constraintStart_toStartOf="@+id/view3"
-        app:layout_constraintTop_toTopOf="parent"
         android:textColor="#CFCECE"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/view3"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/view3"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/currentCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="26000"
+        android:text=""
         android:textColor="#FFFFFF"
         android:textSize="40sp"
         android:drawableLeft="@drawable/coins"
@@ -56,6 +57,19 @@
         app:fontFamily="@font/roboto_bold"
         app:layout_constraintEnd_toEndOf="@+id/textView13"
         app:layout_constraintStart_toStartOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/currentCoins"
+        app:layout_constraintEnd_toEndOf="@+id/textView13"
+        app:layout_constraintStart_toStartOf="@+id/currentCoins"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <TextView

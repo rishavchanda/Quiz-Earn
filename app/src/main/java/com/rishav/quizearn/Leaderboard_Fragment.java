@@ -57,6 +57,7 @@ public class Leaderboard_Fragment extends Fragment {
 
                 }
                 adapter.notifyDataSetChanged();
+                binding.progress.setVisibility(View.GONE);
             }
         });
 
