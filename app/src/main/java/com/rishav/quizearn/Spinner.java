@@ -21,12 +21,16 @@ import java.util.Random;
 
 public class Spinner extends AppCompatActivity {
     ActivitySpinnerBinding binding;
+    boolean check = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySpinnerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        check=true;
+
 
         List<LuckyItem> data = new ArrayList<>();
 
@@ -102,11 +106,16 @@ public class Spinner extends AppCompatActivity {
         binding.wheelview.setLuckyRoundItemSelectedListener(new LuckyWheelView.LuckyRoundItemSelectedListener() {
             @Override
             public void LuckyRoundItemSelected(int index) {
-                updateCash(index);
+                if(check==true){
+                    updateCash(index);
+                }else{
+                    finish();
+                }
             }
         });
 
     }
+
 
     void updateCash(int index){
         long cash = 0;
@@ -150,4 +159,13 @@ public class Spinner extends AppCompatActivity {
             }
         });
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        check=false;
+        finish();
+    }
+
 }
