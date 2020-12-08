@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -83,7 +84,15 @@ public class HomeFragment extends Fragment {
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                 try{
+                     Intent intent = new Intent(Intent.ACTION_SEND);
+                     intent.setType("text/plain");
+                     intent.putExtra(Intent.EXTRA_SUBJECT,"Quiz Earn");
+                     intent.putExtra(Intent.EXTRA_TEXT,"https://play.google.com/store/apps/details?id="+getContext().getPackageName());
+                     startActivity(Intent.createChooser(intent,"Share With"));
+                 }catch (Exception e){
+                     Toast.makeText(getActivity(), "Unable to share at this moment.."+e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                 }
             }
         });
 
