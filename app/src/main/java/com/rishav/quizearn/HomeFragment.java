@@ -72,6 +72,14 @@ public class HomeFragment extends Fragment {
                 });
         binding.category.setLayoutManager(new GridLayoutManager(getContext(),2));
         binding.category.setAdapter(adapter);
+
+        binding.spinwheel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),Spinner.class));
+            }
+        });
+
         return binding.getRoot();
 
 
