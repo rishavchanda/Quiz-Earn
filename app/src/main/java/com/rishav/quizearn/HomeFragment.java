@@ -80,6 +80,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        binding.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return binding.getRoot();
 
 

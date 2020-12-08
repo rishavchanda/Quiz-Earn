@@ -2,7 +2,9 @@ package com.rishav.quizearn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
@@ -32,6 +34,20 @@ public class Result extends AppCompatActivity {
         database.collection("Users")
                 .document(FirebaseAuth.getInstance().getUid())
                 .update("coins", FieldValue.increment(points));
+
+        binding.back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        binding.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 }
