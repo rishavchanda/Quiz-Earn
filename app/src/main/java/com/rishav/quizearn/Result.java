@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,7 +35,12 @@ public class Result extends AppCompatActivity {
 
         database.collection("Users")
                 .document(FirebaseAuth.getInstance().getUid())
-                .update("coins", FieldValue.increment(points));
+                .update("coins", FieldValue.increment(points)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(Result.this, "Coins are added to account", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
