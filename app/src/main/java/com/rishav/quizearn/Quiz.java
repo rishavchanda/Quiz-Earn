@@ -2,10 +2,12 @@ package com.rishav.quizearn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +28,7 @@ public class Quiz extends AppCompatActivity {
     Question question;
     CountDownTimer timer;
     int correctAnswers = 0;
+    ProgressDialog dialog;
 
     FirebaseFirestore database;
 
@@ -34,18 +37,22 @@ public class Quiz extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityQuizBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
+
+        dialog.show();
 
         database = FirebaseFirestore.getInstance();
         questions=new ArrayList<>();
         final String catId = getIntent().getStringExtra("catId");
-         Random random = new Random();
+        Random random = new Random();
         final int rand = random.nextInt(5);
         database.collection("categories")
                 .document(catId)
                 .collection("questions")
                 .whereGreaterThanOrEqualTo("index",rand)
                 .orderBy("index")
-                .limit(3)
+                .limit(10)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -55,7 +62,7 @@ public class Quiz extends AppCompatActivity {
                             .collection("questions")
                             .whereLessThanOrEqualTo("index",rand)
                             .orderBy("index")
-                            .limit(3)
+                            .limit(10)
                             .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -64,6 +71,8 @@ public class Quiz extends AppCompatActivity {
                                     questions.add(question);
                                  }
                             setNextQuestion();
+                            dialog.dismiss();
+                            System.out.println(rand);
                         }
                     });
                 }else{
@@ -72,11 +81,22 @@ public class Quiz extends AppCompatActivity {
                                questions.add(question);
                            }
                     setNextQuestion();
+                    dialog.dismiss();
+                    System.out.println(rand);
+
                     }
                 }
         });
-
         resetTimer();
+
+        binding.quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer.cancel();
+                finish();
+            }
+        });
+
 
     }
     void resetTimer(){
@@ -88,6 +108,19 @@ public class Quiz extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                reset();
+                if((index+1) < questions.size()){
+                    index++;
+                    timer.cancel();
+                    setNextQuestion();
+                }else{
+                    timer.cancel();
+                    Intent intent = new Intent(Quiz.this,Result.class);
+                    intent.putExtra("correct",correctAnswers);
+                    intent.putExtra("total",questions.size());
+                    startActivity(intent);
+                    finish();
+                }
 
             }
         };
@@ -152,7 +185,8 @@ public class Quiz extends AppCompatActivity {
                       break;
                   case R.id.next:
                       reset();
-                      if(index <= questions.size()){
+                      timer.cancel();
+                      if((index+1) < questions.size()){
                           index++;
                           resetTimer();
                           setNextQuestion();
@@ -161,8 +195,16 @@ public class Quiz extends AppCompatActivity {
                           intent.putExtra("correct",correctAnswers);
                           intent.putExtra("total",questions.size());
                           startActivity(intent);
+                          finish();
                       }
                       break;
               }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        timer.cancel();
+        finish();
     }
 }
