@@ -2,12 +2,20 @@ package com.rishav.quizearn;
 
 public class Users {
 
-    private String name,email,pass,code;
+    private String name,email,pass,profile,code;
     private long coins =25 ;
 
 
     public Users(){
 
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     public String getCode() {

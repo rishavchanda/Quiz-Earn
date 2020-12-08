@@ -10,6 +10,6 @@
         android:id="@+id/recylerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/row_leadboards"
-        tools:itemCount="9"/>
+
+        />
 </FrameLayout>
