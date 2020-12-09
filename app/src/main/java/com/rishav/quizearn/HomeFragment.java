@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.rishav.quizearn.databinding.FragmentHomeBinding;
 
@@ -59,11 +61,13 @@ public class HomeFragment extends Fragment {
         final CategoryAdapter adapter = new CategoryAdapter(getContext(),categories);
 
         database.collection("categories")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .orderBy("index", Query.Direction.ASCENDING)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         categories.clear();
-                        for (DocumentSnapshot snapshot : value.getDocuments()){
+                        for (DocumentSnapshot snapshot : queryDocumentSnapshots){
                             CategoryModel modal = snapshot.toObject(CategoryModel.class);
                             modal.setCategoryId(snapshot.getId());
                             categories.add(modal);
