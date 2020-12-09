@@ -117,7 +117,7 @@ public class Profile_Fragment extends Fragment {
                    binding.updateEmailtxt.setError(null);
                    binding.updateFullname.setError(null);
                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                   FirebaseUser user1 = auth.getCurrentUser();
+                   final FirebaseUser user1 = auth.getCurrentUser();
                    if(emailVerified==true){
                        Toast.makeText(getContext(), "email verified...updating", Toast.LENGTH_SHORT).show();
                        user1.updateEmail(newEmail)
@@ -168,7 +168,9 @@ public class Profile_Fragment extends Fragment {
                                    @Override
                                    public void onComplete(@NonNull Task<Void> task) {
                                        if (task.isSuccessful()) {
-                                           Toast.makeText(getContext(), "Verification link is sent to your older Email id verify to add new one...", Toast.LENGTH_SHORT).show();
+                                           Toast.makeText(getContext(), "Verification link is sent to your older Email id verify to add new one...and login in", Toast.LENGTH_SHORT).show();
+                                           FirebaseAuth.getInstance().signOut();
+                                           startActivity(new Intent(getContext(),Login.class));
                                        }
                                    }
                                }).addOnFailureListener(new OnFailureListener() {
