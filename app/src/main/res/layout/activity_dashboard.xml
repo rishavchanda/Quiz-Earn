@@ -84,7 +84,7 @@
         app:backgroundColor="@color/colorPrimary"
         app:cornerRadius="5dp"
         app:iconSize="25dp"
-        app:iconTint="#F3EFEF"
+        app:iconTint="#FFFFFF"
         app:iconTintActive="#FFFFFF"
         app:indicatorRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"

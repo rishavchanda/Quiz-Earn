@@ -38,6 +38,7 @@ public class Quiz extends AppCompatActivity {
         binding = ActivityQuizBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         dialog = new ProgressDialog(this);
+        dialog.setMessage("Starting Your Quiz..Wait.");
         dialog.setCanceledOnTouchOutside(false);
 
         dialog.show();
