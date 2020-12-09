@@ -1,6 +1,8 @@
 package com.rishav.quizearn;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -182,6 +184,77 @@ public class Profile_Fragment extends Fragment {
                    }
 
                }
+           }
+       });
+
+       binding.delete1.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               final ProgressDialog pd = new ProgressDialog(getContext());
+               pd.setMessage("Deleting your account");
+               pd.setCanceledOnTouchOutside(false);
+               pd.show();
+               final AlertDialog.Builder logoutDialog = new AlertDialog.Builder(v.getContext());
+               logoutDialog.setTitle("Delete Account");
+               logoutDialog.setMessage("Are you sure that you want to delete your Account permanently!!!!!!.. We don't Recommend you to delete your account ..All your coins will be deleted..and you will be unable to withdraw money!!!");
+               logoutDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       database.collection("Users")
+                               .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                               .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                           @Override
+                           public void onSuccess(Void aVoid) {
+                               StorageReference riversRef = storageReference.child("images/"+ FirebaseAuth.getInstance().getUid());
+                               riversRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                   @Override
+                                   public void onSuccess(Void aVoid) {
+                                   }
+                               }).addOnFailureListener(new OnFailureListener() {
+                                   @Override
+                                   public void onFailure(@NonNull Exception e) {
+                                       Toast.makeText(getContext(), "Account not Image deleted"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                   }
+                               });
+                               FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                               user.delete()
+                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<Void> task) {
+                                               if (task.isSuccessful()) {
+                                                   pd.dismiss();
+                                                   Toast.makeText(getContext(), "Your Account is deleted.", Toast.LENGTH_SHORT).show();
+                                                   startActivity(new Intent(getContext(),Singup.class));
+                                                   //Log.d(TAG, "User account deleted.");
+                                               }
+                                           }
+                                       }).addOnFailureListener(new OnFailureListener() {
+                                   @Override
+                                   public void onFailure(@NonNull Exception e) {
+                                       pd.dismiss();
+                                       Toast.makeText(getContext(), "Account  not deleted"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                   }
+                               });
+
+                           }
+                       }).addOnFailureListener(new OnFailureListener() {
+                           @Override
+                           public void onFailure(@NonNull Exception e) {
+                               pd.dismiss();
+                               Toast.makeText(getContext(), "Account not data deleated"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                           }
+                       });
+
+                   }
+               });
+               logoutDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+
+                   }
+               });
+
+               logoutDialog.create().show();
            }
        });
 

@@ -112,6 +112,17 @@
                 android:src="@drawable/pencil"
                 app:layout_constraintBottom_toBottomOf="@+id/profilepic"
                 app:layout_constraintEnd_toEndOf="@+id/profilepic" />
+
+            <ImageButton
+                android:id="@+id/delete1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#EAE7E7"
+                android:tint="#434242"
+                android:src="@drawable/ic_baseline_delete_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
