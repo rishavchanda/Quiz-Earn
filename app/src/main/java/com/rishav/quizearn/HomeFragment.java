@@ -46,11 +46,13 @@ public class HomeFragment extends Fragment {
     }
     FragmentHomeBinding binding;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding.progresshome.setVisibility(View.VISIBLE);
 
 
 
@@ -73,6 +75,7 @@ public class HomeFragment extends Fragment {
                             categories.add(modal);
                         }
                         adapter.notifyDataSetChanged();
+                        binding.progresshome.setVisibility(View.GONE);
                     }
                 });
         binding.category.setLayoutManager(new GridLayoutManager(getContext(),2));
