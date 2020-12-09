@@ -9,15 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -43,9 +49,12 @@ public class Profile_Fragment extends Fragment {
     }
 
     FragmentProfileBinding binding;
+    FirebaseFirestore database;
     private Uri imageUri;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+    Users user;
+    //ProgressBar progressBar;
 
 
     @Override
@@ -53,9 +62,11 @@ public class Profile_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding=FragmentProfileBinding.inflate(inflater, container, false);
+        binding.progressBar5.setVisibility(View.VISIBLE);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        database = FirebaseFirestore.getInstance();
 
        binding.addpic.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -63,6 +74,41 @@ public class Profile_Fragment extends Fragment {
                choosePicture();
            }
        });
+       database.collection("Users")
+               .document(FirebaseAuth.getInstance().getUid())
+               .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (getActivity() == null) {
+                    return;
+                }
+                user = documentSnapshot.toObject(Users.class);
+                Glide.with(getContext())
+                        .load(user.getProfile())
+                        .into(binding.profilepic);
+                binding.progressBar5.setVisibility(View.GONE);
+                //binding.profilepic.setImageURI(imageUri);
+            }
+       });
+
+       binding.updatebtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               String newName = binding.updateFullname.getText().toString() ;
+               String newEmail =binding.updateEmailtxt.getText().toString();
+               if(TextUtils.isEmpty(newName) || TextUtils.isEmpty(newEmail)){
+                   binding.updateEmailtxt.setError("Fields cannot be empty");
+                   binding.updateFullname.setError("Fields cannot be empty");
+                   //Toast.makeText(getContext(), "please enter new name and email feilds are empty...!!", Toast.LENGTH_SHORT).show();
+               }else{
+                   binding.updateEmailtxt.setError(null);
+                   binding.updateFullname.setError(null);
+                   Toast.makeText(getContext(), "New Details Updated.", Toast.LENGTH_SHORT).show();
+               }
+           }
+       });
+
+
 
 
         return binding.getRoot();
@@ -81,6 +127,7 @@ public class Profile_Fragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
             imageUri=data.getData();
+            binding.progressBar5.setVisibility(View.VISIBLE);
             binding.profilepic.setImageURI(imageUri);
             uploadpic();
         }
@@ -92,16 +139,28 @@ public class Profile_Fragment extends Fragment {
         pd.setTitle("Uploading Image..");
         pd.show();
 
-        StorageReference riversRef = storageReference.child("images/"+ FirebaseAuth.getInstance().getUid());
+        final StorageReference riversRef = storageReference.child("images/"+ FirebaseAuth.getInstance().getUid());
 
         riversRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
-                       //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        pd.dismiss();
-                        Toast.makeText(getContext(), "Image Uploaded.", Toast.LENGTH_SHORT).show();
+                       riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                           @Override
+                           public void onSuccess(Uri uri) {
+                               database.collection("Users")
+                                       .document(FirebaseAuth.getInstance().getUid())
+                                       .update("profile", uri.toString() ).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                   @Override
+                                   public void onSuccess(Void aVoid) {
+                                       pd.dismiss();
+                                       binding.progressBar5.setVisibility(View.GONE);
+                                       Toast.makeText(getContext(), "Image Uploaded.", Toast.LENGTH_SHORT).show();
+                                   }
+                               });
+                           }
+                       });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -110,16 +169,20 @@ public class Profile_Fragment extends Fragment {
                         // Handle unsuccessful uploads
                         // ...
                         pd.dismiss();
+                        binding.progressBar5.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "Fail to upload.", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                 double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                pd.setMessage("Percent "+(int)progressPercent+"%");
+                pd.setMessage("Percent done : "+(int)progressPercent+"%");
                 pd.setCanceledOnTouchOutside(false);
+                binding.progressBar5.setVisibility(View.VISIBLE);
+
             }
         });
     }
+
 
 }
