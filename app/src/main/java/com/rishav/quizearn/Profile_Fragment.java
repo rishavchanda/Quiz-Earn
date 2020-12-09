@@ -117,6 +117,7 @@ public class Profile_Fragment extends Fragment {
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                 double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
                 pd.setMessage("Percent "+(int)progressPercent+"%");
+                pd.setCanceledOnTouchOutside(false);
             }
         });
     }
