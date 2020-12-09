@@ -278,7 +278,7 @@ public class Profile_Fragment extends Fragment {
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
             imageUri=data.getData();
             binding.progressBar5.setVisibility(View.VISIBLE);
-            binding.profilepic.setImageURI(imageUri);
+            //binding.profilepic.setImageURI(imageUri);
             uploadpic();
         }
     }
