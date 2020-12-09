@@ -2,7 +2,8 @@ package com.rishav.quizearn;
 
 public class Users {
 
-    private String name,email,pass,profile,code;
+    private String name,email,pass,code;
+    private String profile="https://firebasestorage.googleapis.com/v0/b/quiz-earn-b5b83.appspot.com/o/profilepic.png?alt=media&token=99194940-0f72-446f-a593-059b01a6b255";
     private long coins =25 ;
 
 
