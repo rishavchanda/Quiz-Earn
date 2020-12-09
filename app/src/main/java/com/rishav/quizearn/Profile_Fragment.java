@@ -17,10 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,6 +57,7 @@ public class Profile_Fragment extends Fragment {
     private FirebaseStorage storage;
     private StorageReference storageReference;
     Users user;
+    boolean emailVerified=false;
     //ProgressBar progressBar;
 
 
@@ -67,6 +71,14 @@ public class Profile_Fragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         database = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user1 = auth.getCurrentUser();
+
+        if(user1.isEmailVerified()){
+            emailVerified=true;
+        }else {
+            emailVerified=false;
+        }
 
        binding.addpic.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -86,6 +98,8 @@ public class Profile_Fragment extends Fragment {
                 Glide.with(getContext())
                         .load(user.getProfile())
                         .into(binding.profilepic);
+                binding.userName.setText(String.valueOf(user.getName()));
+                binding.userEmailid.setText(String.valueOf(user.getEmail()));
                 binding.progressBar5.setVisibility(View.GONE);
                 //binding.profilepic.setImageURI(imageUri);
             }
@@ -94,16 +108,77 @@ public class Profile_Fragment extends Fragment {
        binding.updatebtn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               String newName = binding.updateFullname.getText().toString() ;
-               String newEmail =binding.updateEmailtxt.getText().toString();
+               final String newName = binding.updateFullname.getText().toString() ;
+               final String newEmail =binding.updateEmailtxt.getText().toString();
                if(TextUtils.isEmpty(newName) || TextUtils.isEmpty(newEmail)){
                    binding.updateEmailtxt.setError("Fields cannot be empty");
                    binding.updateFullname.setError("Fields cannot be empty");
-                   //Toast.makeText(getContext(), "please enter new name and email feilds are empty...!!", Toast.LENGTH_SHORT).show();
                }else{
                    binding.updateEmailtxt.setError(null);
                    binding.updateFullname.setError(null);
-                   Toast.makeText(getContext(), "New Details Updated.", Toast.LENGTH_SHORT).show();
+                   FirebaseAuth auth = FirebaseAuth.getInstance();
+                   FirebaseUser user1 = auth.getCurrentUser();
+                   if(emailVerified==true){
+                       Toast.makeText(getContext(), "email verified...updating", Toast.LENGTH_SHORT).show();
+                       user1.updateEmail(newEmail)
+                               .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                   @Override
+                                   public void onComplete(@NonNull Task<Void> task) {
+                                       if (task.isSuccessful()) {
+                                           database.collection("Users")
+                                                   .document(FirebaseAuth.getInstance().getUid())
+                                                   .update("name",newName).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                               @Override
+                                               public void onSuccess(Void aVoid) {
+                                                   database.collection("Users")
+                                                           .document(FirebaseAuth.getInstance().getUid())
+                                                           .update("email",newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                       @Override
+                                                       public void onSuccess(Void aVoid) {
+                                                           Toast.makeText(getContext(), "New Details Updated.", Toast.LENGTH_SHORT).show();
+                                                       }
+                                                   }).addOnFailureListener(new OnFailureListener() {
+                                                       @Override
+                                                       public void onFailure(@NonNull Exception e) {
+                                                           Toast.makeText(getContext(), "Email is not updated please try again"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                       }
+                                                   });
+                                               }
+                                           }).addOnFailureListener(new OnFailureListener() {
+                                               @Override
+                                               public void onFailure(@NonNull Exception e) {
+                                                   Toast.makeText(getContext(), "Name is not updated please try again"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                               }
+                                           });
+                                       }
+                                   }
+                               }).addOnFailureListener(new OnFailureListener() {
+                           @Override
+                           public void onFailure(@NonNull Exception e) {
+                               Toast.makeText(getContext(), "Email is not updated.."+e.getMessage(), Toast.LENGTH_SHORT).show();
+                           }
+                       });
+                   }
+                   else {
+                       Toast.makeText(getContext(), "Your email is not verified verify your email ...", Toast.LENGTH_SHORT).show();
+                      // FirebaseAuth auth = FirebaseAuth.getInstance();
+                       //final FirebaseUser user = auth.getCurrentUser();
+                       user1.sendEmailVerification()
+                               .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                   @Override
+                                   public void onComplete(@NonNull Task<Void> task) {
+                                       if (task.isSuccessful()) {
+                                           Toast.makeText(getContext(), "Verification link is sent to your older Email id verify to add new one...", Toast.LENGTH_SHORT).show();
+                                       }
+                                   }
+                               }).addOnFailureListener(new OnFailureListener() {
+                           @Override
+                           public void onFailure(@NonNull Exception e) {
+                               Toast.makeText(getContext(), e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                           }
+                       });
+                   }
+
                }
            }
        });

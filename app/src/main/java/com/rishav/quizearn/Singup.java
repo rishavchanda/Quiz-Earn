@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,7 @@ public class Singup extends AppCompatActivity {
     FirebaseFirestore database;
     EditText emailBox,passwordBox,nameBox,codeBox;
     Button AlrdyAcnt,singupButton;
-    ProgressDialog dialog;
+    ProgressDialog dialog,verifyemail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,17 @@ public class Singup extends AppCompatActivity {
         dialog.setTitle("Signing");
         dialog.setMessage("We are creating new account");
         dialog.setCanceledOnTouchOutside(false);
+
+        verifyemail = new ProgressDialog(this);
+        verifyemail.setTitle("Verify Email");
+        verifyemail.setTitle("Verifing email is send to your Email id....go and click the link to verify your email");
+        verifyemail.setCanceledOnTouchOutside(false);
+        verifyemail.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
 
         nameBox=findViewById(R.id.FullName);
         emailBox=findViewById(R.id.Emailtxt);
