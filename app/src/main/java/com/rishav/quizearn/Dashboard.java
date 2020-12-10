@@ -15,14 +15,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.rishav.quizearn.databinding.ActivityDashboardBinding;
 import com.rishav.quizearn.databinding.ActivityMainBinding;
 import com.rishav.quizearn.databinding.FragmentHomeBinding;
@@ -41,6 +44,17 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        FirebaseMessaging.getInstance().subscribeToTopic("quizearn")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Done";
+                        if(!task.isSuccessful()){
+                            msg="failed";
+                        }
+                    }
+                });
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, new HomeFragment());
