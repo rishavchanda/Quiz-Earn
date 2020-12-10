@@ -250,7 +250,7 @@ public class Profile_Fragment extends Fragment {
                logoutDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int which) {
-
+                       pd.dismiss();
                    }
                });
 
