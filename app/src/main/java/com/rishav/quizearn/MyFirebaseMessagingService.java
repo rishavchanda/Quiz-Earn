@@ -1,22 +1,30 @@
 package com.rishav.quizearn;
 
- class MyFirebaseMessagingService {
-  /**
-   * Called if FCM registration token is updated. This may occur if the security of
-   * the previous token had been compromised. Note that this is called when the
-   * FCM registration token is initially generated so this is where you would retrieve
-   * the token.
-   */
- // @Override
-  public void onNewToken(String token) {
-   //Log.d(TAG, "Refreshed token: " + token);
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
-   // If you want to send messages to this application instance or
-   // manage this apps subscriptions on the server side, send the
-   // FCM registration token to your app server.
-   //sendRegistrationToServer(token);
-  }
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
+class MyFirebaseMessagingService extends FirebaseMessagingService
+{
 
-
+ @Override
+ public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+  super.onMessageReceived(remoteMessage);
+  getFirebaseMessage(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
  }
+
+ public void getFirebaseMessage(String title, String msg){
+  NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"myFirebaseChannel")
+          .setSmallIcon(R.drawable.logo)
+          .setContentTitle(title)
+          .setContentText(msg)
+          .setAutoCancel(true);
+
+  NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+  manager.notify(101,builder.build());
+ }
+}
+
