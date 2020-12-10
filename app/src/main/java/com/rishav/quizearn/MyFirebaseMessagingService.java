@@ -10,6 +10,7 @@ import com.google.firebase.messaging.RemoteMessage;
 class MyFirebaseMessagingService extends FirebaseMessagingService
 {
 
+
  @Override
  public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
   super.onMessageReceived(remoteMessage);
@@ -17,8 +18,7 @@ class MyFirebaseMessagingService extends FirebaseMessagingService
  }
 
  public void getFirebaseMessage(String title, String msg){
-  NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"myFirebaseChannel")
-          .setSmallIcon(R.drawable.logo)
+  NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"myQuizEarnChannel")
           .setContentTitle(title)
           .setContentText(msg)
           .setAutoCancel(true);

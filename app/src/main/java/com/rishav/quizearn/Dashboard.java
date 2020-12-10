@@ -45,16 +45,7 @@ public class Dashboard extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        FirebaseMessaging.getInstance().subscribeToTopic("quizearn")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Done";
-                        if(!task.isSuccessful()){
-                            msg="failed";
-                        }
-                    }
-                });
+
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, new HomeFragment());
