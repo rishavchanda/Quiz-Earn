@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,9 +58,9 @@ public class WalletFragment extends Fragment {
                 if(user.getCoins() > 50000){
                     String uid = FirebaseAuth.getInstance().getUid();
                     String paypal = binding.paypalEmailid.getText().toString();
-                    if(binding.paypalEmailid == null) {
-                        Toast.makeText(getContext(),"Please enter Paypal Emailid",Toast.LENGTH_SHORT).show();
-                    }else {
+                    if(TextUtils.isEmpty(paypal)){
+                        binding.paypalEmailid.setError("Fields cannot be empty");
+                    }else{
                         withdrawRequest request = new withdrawRequest(uid, paypal,user.getName());
                         database.collection("withdraws")
                                 .document(uid)
@@ -69,7 +70,6 @@ public class WalletFragment extends Fragment {
                                 Toast.makeText(getContext(),"Request sent Sucessfully !..Your Money will be transfered within 4 to 5 days.",Toast.LENGTH_SHORT).show();
                             }
                         });
-
                     }
                 }else {
                     Toast.makeText(getContext(),"You need more coins to withdraw money.",Toast.LENGTH_SHORT).show();
