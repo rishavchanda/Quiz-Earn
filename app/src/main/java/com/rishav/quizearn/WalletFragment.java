@@ -2,6 +2,7 @@ package com.rishav.quizearn;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -56,8 +58,9 @@ public class WalletFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(user.getCoins() > 50000){
-                    String uid = FirebaseAuth.getInstance().getUid();
+                    final String uid = FirebaseAuth.getInstance().getUid();
                     String paypal = binding.paypalEmailid.getText().toString();
+                    final long newcoins = (user.getCoins()-50000);
                     if(TextUtils.isEmpty(paypal)){
                         binding.paypalEmailid.setError("Fields cannot be empty");
                     }else{
@@ -67,7 +70,28 @@ public class WalletFragment extends Fragment {
                                 .set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                database.collection("Users")
+                                        .document(uid)
+                                        .update("coins",newcoins).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
                                 Toast.makeText(getContext(),"Request sent Sucessfully !..Your Money will be transfered within 4 to 5 days.",Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

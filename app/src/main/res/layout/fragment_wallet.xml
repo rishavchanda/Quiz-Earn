@@ -97,7 +97,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:padding="15dp"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:drawableLeft="@drawable/googleg_standard_color_18"
         android:textColorHint="#7E7D7D"
         android:textColor="#000000"
