@@ -148,10 +148,6 @@ public class Singup extends AppCompatActivity {
             }
         });
 
-
-
-
-
         AlrdyAcnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
