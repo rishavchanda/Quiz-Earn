@@ -306,6 +306,7 @@ public class Profile_Fragment extends Fragment {
                                    public void onSuccess(Void aVoid) {
                                        pd.dismiss();
                                        binding.progressBar5.setVisibility(View.GONE);
+                                       binding.profilepic.setImageURI(imageUri);
                                        Toast.makeText(getContext(), "Image Uploaded.", Toast.LENGTH_SHORT).show();
                                    }
                                });
