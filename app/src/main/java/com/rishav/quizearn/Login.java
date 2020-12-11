@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
@@ -29,6 +31,7 @@ public class Login extends AppCompatActivity {
     TextView forgotpass;
 
     FirebaseAuth auth;
+    FirebaseFirestore database;
 
     ProgressDialog dialog;
 
@@ -42,6 +45,7 @@ public class Login extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
 
         auth=FirebaseAuth.getInstance();
+        database=FirebaseFirestore.getInstance();
 
         emailBox=findViewById(R.id.Emailtxt);
         passwordBox=findViewById(R.id.Passwordtxt);
@@ -59,25 +63,56 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
-                String email,password;
+                final String email,password;
                 email=emailBox.getText().toString();
                 password=passwordBox.getText().toString();
-                auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        dialog.dismiss();
-                        if(task.isSuccessful()){
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+                    emailBox.setError("Fields cannot be empty");
+                    passwordBox.setError("Fields cannot be empty");
+                }else {
+                    dialog.show();
+                    auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                String uid =task.getResult().getUser().getUid();
+                                database.collection("Users")
+                                        .document(uid)
+                                        .update("email",email)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
 
-                            Toast.makeText(Login.this,"Logged In",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Login.this,Dashboard.class));
-                            finish();
-
-                        }else {
-                            Toast.makeText(Login.this,task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                                                database.collection("Users")
+                                                        .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                        .update("pass",password)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                dialog.dismiss();
+                                                                Toast.makeText(Login.this,"Logged In",Toast.LENGTH_SHORT).show();
+                                                                startActivity(new Intent(Login.this,Dashboard.class));
+                                                                finish();
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(Login.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }else {
+                                Toast.makeText(Login.this,task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
@@ -94,17 +129,22 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String mail = resetMail.getText().toString();
-                        auth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(Login.this,"Reset link is sent into the given email id.",Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Login.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        if (TextUtils.isEmpty(mail)){
+                            resetMail.setError("Field cannot be empty");
+                            Toast.makeText(Login.this,"please enter email id to recover password!!",Toast.LENGTH_SHORT).show();
+                        }else{
+                            auth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(Login.this,"Reset link is sent into the given email id.",Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Login.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     }
                 });
                 passwordResetDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

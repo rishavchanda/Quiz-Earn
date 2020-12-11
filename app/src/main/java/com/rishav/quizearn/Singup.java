@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,41 +63,48 @@ public class Singup extends AppCompatActivity {
         singupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
+
                 String email,pass,name,code;
                 email=emailBox.getText().toString();
                 pass=passwordBox.getText().toString();
                 name=nameBox.getText().toString();
                 code=codeBox.getText().toString();
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(name) || TextUtils.isEmpty(code)){
+                    emailBox.setError("Fields cannot be empty");
+                    passwordBox.setError("Fields cannot be empty");
+                    nameBox.setError("Fields cannot be empty");
+                    codeBox.setError("Fields cannot be empty");
+                }else {
+                    dialog.show();
+                    final Users user =new Users();
+                    user.setName(name);
+                    user.setEmail(email);
+                    user.setPass(pass);
+                    user.setCode(code);
 
-                final Users user =new Users();
-                user.setName(name);
-                user.setEmail(email);
-                user.setPass(pass);
-                user.setCode(code);
-
-                auth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            String uid =task.getResult().getUser().getUid();
-                            database.collection("Users")
-                                    .document(uid)
-                                    .set(user)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    dialog.dismiss();
-                                    startActivity(new Intent(Singup.this,Dashboard.class));
-                                    finish();
-                                }
-                            });
-                        }else {
-                            dialog.dismiss();
-                            Toast.makeText(Singup.this,task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                    auth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                String uid =task.getResult().getUser().getUid();
+                                database.collection("Users")
+                                        .document(uid)
+                                        .set(user)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                dialog.dismiss();
+                                                startActivity(new Intent(Singup.this,Dashboard.class));
+                                                finish();
+                                            }
+                                        });
+                            }else {
+                                dialog.dismiss();
+                                Toast.makeText(Singup.this,task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
