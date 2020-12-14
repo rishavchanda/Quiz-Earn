@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -54,8 +56,15 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        AdRequest adRequest = new AdRequest.Builder().build();
+        final AdRequest adRequest = new AdRequest.Builder().build();
         binding.adView.loadAd(adRequest);
+        binding.adView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                binding.adView.loadAd(adRequest);
+            }
+        });
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, new HomeFragment());
