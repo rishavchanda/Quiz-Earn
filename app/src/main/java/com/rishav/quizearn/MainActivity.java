@@ -12,6 +12,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,32 +26,67 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private ScreenSlidePageAdapter pageAdapter;
     SharedPreferences mSharedPref;
+    View bg;
+    ImageView logo;
+    boolean lastpage=false;
+    Button skip,next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bg=findViewById(R.id.bg);
+        logo=findViewById(R.id.logo);
+        skip=findViewById(R.id.skip);
+        next=findViewById(R.id.next);
+        next.setVisibility(View.GONE);
+        skip.setVisibility(View.GONE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                bg.setVisibility(View.GONE);
+                logo.setVisibility(View.GONE);
+                next.setVisibility(View.VISIBLE);
+                skip.setVisibility(View.VISIBLE);
                 mSharedPref = getSharedPreferences("SharedPref",MODE_PRIVATE);
                 boolean isFirstTime = mSharedPref.getBoolean("firstTime",true);
-                if(isFirstTime){
+               // if(isFirstTime){
                     //onboarding
-                    SharedPreferences.Editor editor = mSharedPref.edit();
-                    editor.putBoolean("firstTime",false);
-                    editor.commit();
-                }else {
-                    startActivity(new Intent(MainActivity.this, Login.class));
-                    finish();
-                }
+                 //   SharedPreferences.Editor editor = mSharedPref.edit();
+                 //   editor.putBoolean("firstTime",false);
+                  //  editor.commit();
+               // }else {
+                 //   startActivity(new Intent(MainActivity.this, Login.class));
+                 //   finish();
+               // }
             }
         },1500);
 
         viewPager=findViewById(R.id.pager);
         pageAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Login.class));
+                finish();
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(getItem(+1),true);
+                if(lastpage==true){
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                    finish();
+                }
+            }
+        });
     }
+    private int getItem(int i){
+        return viewPager.getCurrentItem()+i;
+    }
+
 
     private class ScreenSlidePageAdapter extends FragmentStatePagerAdapter {
 
@@ -58,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public Fragment getItem(int position) {
+        public Fragment getItem(final int position) {
             switch (position){
                 case 0:
                 OnBoardingFragment1 tab1 = new OnBoardingFragment1();
