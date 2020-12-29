@@ -2,6 +2,7 @@ package com.rishav.quizearn;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -13,8 +14,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,11 +32,12 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences mSharedPref;
     View bg;
     ImageView logo;
-    boolean lastpage=false;
     Button skip,next;
+    LinearLayout layoutOnboardingIndicators;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bg=findViewById(R.id.bg);
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         next=findViewById(R.id.next);
         next.setVisibility(View.GONE);
         skip.setVisibility(View.GONE);
+        layoutOnboardingIndicators=findViewById(R.id.layoutOnBoardingIndicator);
+        layoutOnboardingIndicators.setVisibility(View.GONE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 logo.setVisibility(View.GONE);
                 next.setVisibility(View.VISIBLE);
                 skip.setVisibility(View.VISIBLE);
+                layoutOnboardingIndicators.setVisibility(View.VISIBLE);
                 mSharedPref = getSharedPreferences("SharedPref",MODE_PRIVATE);
                 boolean isFirstTime = mSharedPref.getBoolean("firstTime",true);
                // if(isFirstTime){
@@ -61,10 +69,11 @@ public class MainActivity extends AppCompatActivity {
                // }
             }
         },1500);
-
         viewPager=findViewById(R.id.pager);
         pageAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
+        setOnboardingIndicator();
+        setCurrentOnboardingIndicator(0);
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,11 +81,27 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setCurrentOnboardingIndicator(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+
+        });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(getItem(+1),true);
-                if(lastpage==true){
+                if(viewPager.getCurrentItem() + 1 < pageAdapter.getCount()){
+                    viewPager.setCurrentItem(getItem(+1),true);
+                }else{
                     startActivity(new Intent(MainActivity.this, Login.class));
                     finish();
                 }
@@ -115,5 +140,43 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+    private void setOnboardingIndicator(){
+        ImageView[] indicators = new ImageView[pageAdapter.getCount()];
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(8,0,8,0);
+        for (int i =0; i<indicators.length; i++){
+            indicators[i] = new ImageView(getApplicationContext());
+            indicators[i].setImageDrawable(ContextCompat.getDrawable(
+                    getApplicationContext(),
+                    R.drawable.onboarding_indicator_inactive
+            ));
+            indicators[i].setLayoutParams(layoutParams);
+            layoutOnboardingIndicators.addView(indicators[i]);
+        }
+    }
+
+    private void setCurrentOnboardingIndicator(int index){
+        int childCount = layoutOnboardingIndicators.getChildCount();
+        for(int i= 0; i<childCount; i++){
+            ImageView imageView=(ImageView) layoutOnboardingIndicators.getChildAt(i);
+            if(i == index){
+                imageView.setImageDrawable(
+                        ContextCompat.getDrawable(getApplicationContext(),R.drawable.onboarding_indicator_active)
+                );
+            }else{
+                imageView.setImageDrawable(
+                        ContextCompat.getDrawable(getApplicationContext(),R.drawable.onboarding_indicator_inactive)
+                );
+            }
+        }
+        if(index == pageAdapter.getCount() - 1){
+            next.setText("Start");
+            skip.setVisibility(View.GONE);
+        }
+
     }
 }

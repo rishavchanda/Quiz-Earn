@@ -15,7 +15,7 @@
         android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/ic_launcher_background"
+        android:background="@color/colorBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,8 +49,9 @@
         android:text="Next"
         android:textColor="#040404"
         android:paddingRight="15dp"
-        android:drawableRight="@drawable/ic_baseline_navigate_next_24"
+        android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"
         android:paddingLeft="15dp"
+        android:textSize="16sp"
         android:drawableTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -63,9 +64,28 @@
         android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
         android:text="Skip"
+        android:textSize="16sp"
         android:textColor="#1E1D1D"
+        android:paddingRight="15dp"
+        android:drawableTint="#1E1D1D"
+        android:paddingLeft="15dp"
+        android:drawableLeft="@drawable/ic_baseline_arrow_back_ios_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutOnBoardingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/next">
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
