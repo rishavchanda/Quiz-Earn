@@ -32,61 +32,61 @@
         app:srcCompat="@drawable/logo" />
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/next"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:text="Next"
-        android:textColor="#040404"
-        android:paddingRight="15dp"
-        android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"
-        android:paddingLeft="15dp"
-        android:textSize="16sp"
-        android:drawableTint="#000000"
+        android:background="@drawable/roundbtn"
+        android:drawableRight="@drawable/ic_baseline_arrow_forward_24"
+        android:drawableTint="#FFFFFF"
+        android:elevation="10dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="8sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/skip"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="2dp"
         android:background="@android:color/transparent"
-        android:text="Skip"
-        android:textSize="16sp"
-        android:textColor="#1E1D1D"
-        android:paddingRight="15dp"
         android:drawableTint="#1E1D1D"
         android:paddingLeft="15dp"
-        android:drawableLeft="@drawable/ic_baseline_arrow_back_ios_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:paddingRight="15dp"
+        android:text="Skip"
+        android:textColor="#302F2F"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutOnBoardingIndicator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skip" />
 
     <LinearLayout
         android:id="@+id/layoutOnBoardingIndicator"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/next"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/next">
 
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

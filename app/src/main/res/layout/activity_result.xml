@@ -36,6 +36,16 @@
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_htEgHu.json" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_url="https://assets7.lottiefiles.com/packages/lf20_30iie6.json" />
 
                 <TextView
                     android:id="@+id/textView8"

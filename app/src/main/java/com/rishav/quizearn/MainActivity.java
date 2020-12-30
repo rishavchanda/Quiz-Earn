@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(index == pageAdapter.getCount() - 1){
-            next.setText("Start");
+            next.setText("");
             skip.setVisibility(View.GONE);
         }
 
