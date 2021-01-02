@@ -82,26 +82,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         //navigation
         navigationDrawer();
-
-        database.collection("Users")
-                .document(FirebaseAuth.getInstance().getUid())
-                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (getApplicationContext() == null) {
-                    return;
-                }
-                user = documentSnapshot.toObject(Users.class);
-                Glide.with(getApplicationContext())
-                        .load(user.getProfile())
-                        .into(profilepic);
-                name.setText(String.valueOf(user.getName()));
-                emailid.setText(String.valueOf(user.getEmail()));
-                //binding.progressBar5.setVisibility(View.GONE);
-                //binding.profilepic.setImageURI(imageUri);
-            }
-        });
-
+        setnavthings();
 
        binding.bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
            @Override
@@ -162,7 +143,27 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
+    private void setnavthings() {
 
+        database.collection("Users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (getApplicationContext() == null) {
+                    return;
+                }
+                user = documentSnapshot.toObject(Users.class);
+                Glide.with(getApplicationContext())
+                        .load(user.getProfile())
+                        .into(profilepic);
+                name.setText(String.valueOf(user.getName()));
+                emailid.setText(String.valueOf(user.getEmail()));
+                //binding.progressBar5.setVisibility(View.GONE);
+                //binding.profilepic.setImageURI(imageUri);
+            }
+        });
+    }
 
 
     //navigationDrawer
@@ -170,6 +171,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         if (drawerLayout.isDrawerVisible(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
+            setnavthings();
         }else{
             super.onBackPressed();
         }
@@ -183,8 +185,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onClick(View v) {
                 if (drawerLayout.isDrawerVisible(GravityCompat.START)){
+                    setnavthings();
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }else {
+                    setnavthings();
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
 
