@@ -12,14 +12,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.rishav.quizearn.databinding.ActivityDashboardBinding;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
@@ -32,6 +39,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     ConstraintLayout mainView;
     static final float END_SCALE = 0.7f;
 
+    Users user;
+    FirebaseFirestore database;
+    CircularImageView profilepic;
+    TextView name,emailid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +52,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navigationView;
+        View headerView=navigationView.getHeaderView(0);
+        profilepic=headerView.findViewById(R.id.profilepic);
+        name=headerView.findViewById(R.id.name);
+        emailid=headerView.findViewById(R.id.emailid);
         mainView=binding.mainview;
+        database=FirebaseFirestore.getInstance();
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -65,6 +82,25 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         //navigation
         navigationDrawer();
+
+        database.collection("Users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (getApplicationContext() == null) {
+                    return;
+                }
+                user = documentSnapshot.toObject(Users.class);
+                Glide.with(getApplicationContext())
+                        .load(user.getProfile())
+                        .into(profilepic);
+                name.setText(String.valueOf(user.getName()));
+                emailid.setText(String.valueOf(user.getEmail()));
+                //binding.progressBar5.setVisibility(View.GONE);
+                //binding.profilepic.setImageURI(imageUri);
+            }
+        });
 
 
        binding.bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -155,7 +191,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
         });
 
-        animateNavigationDrawer();
+       // animateNavigationDrawer();
 
     }
 

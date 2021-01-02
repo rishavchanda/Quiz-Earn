@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -23,16 +25,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.rishav.quizearn.databinding.FragmentProfileBinding;
 
 import java.net.URI;
@@ -60,6 +65,10 @@ public class Profile_Fragment extends Fragment {
     private StorageReference storageReference;
     Users user;
     boolean emailVerified=false;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    CircularImageView profilepic;
+    TextView name,emailid;
     //ProgressBar progressBar;
 
 
@@ -69,6 +78,10 @@ public class Profile_Fragment extends Fragment {
         // Inflate the layout for this fragment
         binding=FragmentProfileBinding.inflate(inflater, container, false);
         binding.progressBar5.setVisibility(View.VISIBLE);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.nav_header,null);
+        profilepic=view.findViewById(R.id.profilepic);
+        name=view.findViewById(R.id.name);
+        emailid=view.findViewById(R.id.emailid);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -88,24 +101,7 @@ public class Profile_Fragment extends Fragment {
                choosePicture();
            }
        });
-       database.collection("Users")
-               .document(FirebaseAuth.getInstance().getUid())
-               .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (getActivity() == null) {
-                    return;
-                }
-                user = documentSnapshot.toObject(Users.class);
-                Glide.with(getContext())
-                        .load(user.getProfile())
-                        .into(binding.profilepic);
-                binding.userName.setText(String.valueOf(user.getName()));
-                binding.userEmailid.setText(String.valueOf(user.getEmail()));
-                binding.progressBar5.setVisibility(View.GONE);
-                //binding.profilepic.setImageURI(imageUri);
-            }
-       });
+        updateprofilepic();
 
        binding.updatebtn.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -138,6 +134,7 @@ public class Profile_Fragment extends Fragment {
                                                        @Override
                                                        public void onSuccess(Void aVoid) {
                                                            Toast.makeText(getContext(), "New Details Updated.", Toast.LENGTH_SHORT).show();
+                                                           updateprofilepic();
                                                        }
                                                    }).addOnFailureListener(new OnFailureListener() {
                                                        @Override
@@ -264,6 +261,46 @@ public class Profile_Fragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void updateprofilepic() {
+        database.collection("Users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (getActivity() == null) {
+                    return;
+                }
+                user = documentSnapshot.toObject(Users.class);
+                Glide.with(getContext())
+                        .load(user.getProfile())
+                        .into(binding.profilepic);
+                binding.userName.setText(String.valueOf(user.getName()));
+                binding.userEmailid.setText(String.valueOf(user.getEmail()));
+                binding.progressBar5.setVisibility(View.GONE);
+
+                //binding.profilepic.setImageURI(imageUri);
+            }
+        });
+
+        database.collection("Users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (getActivity() == null) {
+                    return;
+                }
+                user = documentSnapshot.toObject(Users.class);
+                Glide.with(getContext())
+                        .load(user.getProfile())
+                        .into(profilepic);
+                name.setText(String.valueOf(user.getName()));
+                emailid.setText(String.valueOf(user.getEmail()));
+                //binding.progressBar5.setVisibility(View.GONE);
+                //binding.profilepic.setImageURI(imageUri);
+            }
+        });
+    }
 
 
     private void choosePicture(){
@@ -308,6 +345,7 @@ public class Profile_Fragment extends Fragment {
                                        binding.progressBar5.setVisibility(View.GONE);
                                        binding.profilepic.setImageURI(imageUri);
                                        Toast.makeText(getContext(), "Image Uploaded.", Toast.LENGTH_SHORT).show();
+                                       updateprofilepic();
                                    }
                                });
                            }
