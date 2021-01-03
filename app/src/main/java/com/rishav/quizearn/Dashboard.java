@@ -177,7 +177,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         if (drawerLayout.isDrawerVisible(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
             setnavthings();
-        }else{
+        }
+        else{
             super.onBackPressed();
         }
     }
@@ -280,7 +281,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
         }
         else if (id==R.id.nav_aboutUs){
-
+            startActivity(new Intent(Dashboard.this,AboutUs.class));
         } else if (id==R.id.nav_RateUs){
 
         }

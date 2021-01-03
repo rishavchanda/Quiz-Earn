@@ -39,6 +39,9 @@
             android:name=".Settings"
             android:label="Settings" />
         <activity
+            android:name=".AboutUs"
+            android:label="AboutUs" />
+        <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.noActionBar2">
             <intent-filter>
