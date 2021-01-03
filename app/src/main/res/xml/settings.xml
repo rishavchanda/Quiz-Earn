@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="switch_musicPreference"
+        android:title="Music"
+        android:summary="Put music On or Off"/>
+</PreferenceScreen>
