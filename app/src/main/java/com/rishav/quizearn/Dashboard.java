@@ -260,18 +260,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             logoutDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //int bottombar=binding.bottomBar.getItemActiveIndex();
-                    //setActivenav(bottombar);
                 }
             });
 
             logoutDialog.create().show();
-           // int bottombar=binding.bottomBar.getItemActiveIndex();
-            //setActivenav(bottombar);
         }
         else if (id==R.id.nav_settings){
-            //int bottombar=binding.bottomBar.getItemActiveIndex();
-            //setActivenav(bottombar);
             startActivity(new Intent(Dashboard.this,Settings.class));
         }
         else if (id==R.id.nav_share){
@@ -292,23 +286,5 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void setActivenav(int i) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        switch (i){
-            case 0:
-                binding.navigationView.setCheckedItem(R.id.nav_home);
-                break;
-            case 1:
-                binding.navigationView.setCheckedItem(R.id.nav_rank);
-                break;
-            case 2:
-                binding.navigationView.setCheckedItem(R.id.nav_wallet);
-                break;
-            case 3:
-                binding.navigationView.setCheckedItem(R.id.nav_profile);
-                break;
-        }
     }
 }
