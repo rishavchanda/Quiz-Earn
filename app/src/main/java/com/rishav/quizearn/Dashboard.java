@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdListener;
@@ -90,18 +91,22 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                switch (i){
                    case 0:
+                       binding.navigationView.setCheckedItem(R.id.nav_home);
                        transaction.replace(R.id.content, new HomeFragment());
                        transaction.commit();
                        break;
                    case 1:
+                       binding.navigationView.setCheckedItem(R.id.nav_rank);
                        transaction.replace(R.id.content, new Leaderboard_Fragment());
                        transaction.commit();
                        break;
                    case 2:
+                       binding.navigationView.setCheckedItem(R.id.nav_wallet);
                        transaction.replace(R.id.content, new WalletFragment());
                        transaction.commit();
                        break;
                    case 3:
+                       binding.navigationView.setCheckedItem(R.id.nav_profile);
                        transaction.replace(R.id.content, new Profile_Fragment());
                        transaction.commit();
                        break;
@@ -219,6 +224,89 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id=menuItem.getItemId();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (id==R.id.nav_home){
+            binding.bottomBar.setItemActiveIndex(0);
+            transaction.replace(R.id.content, new HomeFragment());
+            transaction.commit();
+        } else if (id==R.id.nav_rank){
+            binding.bottomBar.setItemActiveIndex(1);
+            transaction.replace(R.id.content, new Leaderboard_Fragment());
+            transaction.commit();
+        } else if (id==R.id.nav_wallet){
+            binding.bottomBar.setItemActiveIndex(2);
+            transaction.replace(R.id.content, new WalletFragment());
+            transaction.commit();
+        }
+        else if (id==R.id.nav_profile){
+            binding.bottomBar.setItemActiveIndex(3);
+            transaction.replace(R.id.content, new Profile_Fragment());
+            transaction.commit();
+        }
+        else if (id==R.id.nav_logout){
+            AlertDialog.Builder logoutDialog = new AlertDialog.Builder(Dashboard.this);
+            logoutDialog.setTitle("Logout");
+            logoutDialog.setMessage("If you want to Logout then click ok.");
+
+
+            logoutDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(Dashboard.this,Login.class));
+                }
+            });
+            logoutDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    int bottombar=binding.bottomBar.getItemActiveIndex();
+                    setActivenav(bottombar);
+                }
+            });
+
+            logoutDialog.create().show();
+            int bottombar=binding.bottomBar.getItemActiveIndex();
+            setActivenav(bottombar);
+        }
+        else if (id==R.id.nav_settings){
+
+        }
+        else if (id==R.id.nav_share){
+            try{
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_SUBJECT,"Quiz Earn");
+                intent.putExtra(Intent.EXTRA_TEXT,"https://play.google.com/store/apps/details?id="+Dashboard.this.getPackageName());
+                startActivity(Intent.createChooser(intent,"Share With"));
+            }catch (Exception e){
+                Toast.makeText(Dashboard.this, "Unable to share at this moment.."+e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (id==R.id.nav_aboutUs){
+
+        } else if (id==R.id.nav_RateUs){
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setActivenav(int i) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        switch (i){
+            case 0:
+                binding.navigationView.setCheckedItem(R.id.nav_home);
+                break;
+            case 1:
+                binding.navigationView.setCheckedItem(R.id.nav_rank);
+                break;
+            case 2:
+                binding.navigationView.setCheckedItem(R.id.nav_wallet);
+                break;
+            case 3:
+                binding.navigationView.setCheckedItem(R.id.nav_profile);
+                break;
+        }
     }
 }
