@@ -222,39 +222,12 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithCredential:success");
-                            // FirebaseUser user = auth.getCurrentUser();
-                            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(Login.this);
-                            if (acct != null) {
-                                String personName = acct.getDisplayName();
-                                //String personGivenName = acct.getGivenName();
-                                //String personFamilyName = acct.getFamilyName();
-                                String personEmail = acct.getEmail();
-                                // String personId = acct.getId();
-                                //final Uri personPhoto = acct.getPhotoUrl();
-                                final Users user =new Users();
-                                user.setName(personName);
-                                user.setEmail(personEmail);
-                                user.setPass("googlesingup");
-                                user.setCode("gsingup");
-                                String uid =task.getResult().getUser().getUid();
-                                database.collection("Users")
-                                        .document(uid)
-                                        .set(user)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                dialog.dismiss();
-                                                startActivity(new Intent(Login.this,Dashboard.class));
-                                                finish();
-                                                Toast.makeText(Login.this, "Logged in", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
-                            // updateUI(user);
+                            dialog.dismiss();
+                            startActivity(new Intent(Login.this,Dashboard.class));
+                            finish();
+                            Toast.makeText(Login.this, "Logged in", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(Login.this, "Sorry Could not Signed up", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Sorry Could not LoggedIn", Toast.LENGTH_SHORT).show();
                         }
 
                         // ...

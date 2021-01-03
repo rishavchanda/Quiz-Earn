@@ -7,8 +7,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -283,9 +285,16 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         else if (id==R.id.nav_aboutUs){
             startActivity(new Intent(Dashboard.this,AboutUs.class));
         } else if (id==R.id.nav_RateUs){
-
+            try{
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id="+getPackageName())));
+            }catch (ActivityNotFoundException e){
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id="+getPackageName())));
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
