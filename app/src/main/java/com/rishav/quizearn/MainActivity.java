@@ -57,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
                 skip.setVisibility(View.VISIBLE);
                 layoutOnboardingIndicators.setVisibility(View.VISIBLE);
                 mSharedPref = getSharedPreferences("SharedPref",MODE_PRIVATE);
-                boolean isFirstTime = mSharedPref.getBoolean("firstTime",true);
-                if(isFirstTime){
+               // boolean isFirstTime = mSharedPref.getBoolean("firstTime",true);
+                //if(isFirstTime){
                    // onboarding
-                   SharedPreferences.Editor editor = mSharedPref.edit();
-                   editor.putBoolean("firstTime",false);
-                   editor.commit();
-                }else {
-                    startActivity(new Intent(MainActivity.this, Login.class));
-                    finish();
-                }
+                   //SharedPreferences.Editor editor = mSharedPref.edit();
+                   //editor.putBoolean("firstTime",false);
+                   //editor.commit();
+                //}else {
+                  //  startActivity(new Intent(MainActivity.this, Login.class));
+                    //finish();
+                //}
             }
         },1500);
         viewPager=findViewById(R.id.pager);
