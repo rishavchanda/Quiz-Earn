@@ -1,10 +1,15 @@
 package com.rishav.quizearn;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +24,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     Context context;
     ArrayList<CategoryModel> categoryModels;
+    AlertDialog.Builder builder;
     public CategoryAdapter(Context context, ArrayList<CategoryModel> categoryModels){
         this.context=context;
         this.categoryModels=categoryModels;
@@ -41,9 +47,47 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,Quiz.class);
-                intent.putExtra("catId",model.getCategoryId());
-                context.startActivity(intent);
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo wifiCon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                NetworkInfo mobileCon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+                if ((wifiCon != null && wifiCon.isConnected()) || (mobileCon != null && mobileCon.isConnected())){
+                    Intent intent = new Intent(context,Quiz.class);
+                    intent.putExtra("catId",model.getCategoryId());
+                    context.startActivity(intent);
+
+                }else{
+                    builder = new AlertDialog.Builder(context);
+                    View view = LayoutInflater.from(context).inflate(R.layout.no_internet,null);
+                   // builder.setCancelable(false);
+                    builder.setView(view);
+                    Button connect;
+                    connect=view.findViewById(R.id.tryAgain);
+                    builder.setCancelable(true);
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.show();
+                    connect.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                            NetworkInfo wifiCon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                            NetworkInfo mobileCon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                            if ((wifiCon != null && wifiCon.isConnected()) || (mobileCon != null && mobileCon.isConnected())){
+                                Intent intent = new Intent(context,Quiz.class);
+                                intent.putExtra("catId",model.getCategoryId());
+                                context.startActivity(intent);
+                            }
+                        }
+                    });
+
+                }
+
+
             }
         });
     }
