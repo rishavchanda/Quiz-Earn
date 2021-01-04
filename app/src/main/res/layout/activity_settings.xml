@@ -22,6 +22,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@color/colorPrimary"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/titel"
                 android:layout_width="wrap_content"
@@ -31,9 +42,10 @@
                 android:gravity="center"
                 android:text="Settings"
                 android:textColor="#fff"
-                android:textSize="20sp"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/back"
                 app:layout_constraintTop_toBottomOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
 

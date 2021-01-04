@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int NUM_PAGES = 3;
     private ViewPager viewPager;
     private ScreenSlidePageAdapter pageAdapter;
-    SharedPreferences mSharedPref;
+    SharedPreferences settings;
+    boolean b_music;
     View bg;
     ImageView logo;
     Button skip,next;
@@ -51,12 +52,17 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                bg.setVisibility(View.GONE);
-                logo.setVisibility(View.GONE);
-                next.setVisibility(View.VISIBLE);
-                skip.setVisibility(View.VISIBLE);
-                layoutOnboardingIndicators.setVisibility(View.VISIBLE);
-                mSharedPref = getSharedPreferences("SharedPref",MODE_PRIVATE);
+                settings= getSharedPreferences("MUSIC_SETTING",MODE_PRIVATE);
+                b_music=settings.getBoolean("MUSIC",true);
+                if (b_music){
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                    finish();
+                    Toast.makeText(MainActivity.this, "music on", Toast.LENGTH_SHORT).show();
+                }else {
+                    openOnboarding();
+                    Toast.makeText(MainActivity.this, "music off", Toast.LENGTH_SHORT).show();
+                }
+              //  mSharedPref = getSharedPreferences("SharedPref",MODE_PRIVATE);
                // boolean isFirstTime = mSharedPref.getBoolean("firstTime",true);
                 //if(isFirstTime){
                    // onboarding
@@ -69,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
                 //}
             }
         },1500);
+
+    }
+
+    public void openOnboarding(){
+        bg.setVisibility(View.GONE);
+        logo.setVisibility(View.GONE);
+        next.setVisibility(View.VISIBLE);
+        skip.setVisibility(View.VISIBLE);
+        layoutOnboardingIndicators.setVisibility(View.VISIBLE);
+
         viewPager=findViewById(R.id.pager);
         pageAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
