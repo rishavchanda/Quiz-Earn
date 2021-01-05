@@ -24,10 +24,11 @@
             android:theme="@style/AppTheme.noActionBar"></activity>
         <activity
             android:name=".Result"
-            android:theme="@style/AppTheme.noActionBar"></activity>
+            android:theme="@style/AppTheme.quizResuldDark"
+            ></activity>
         <activity
             android:name=".Quiz"
-            android:theme="@style/AppTheme.noActionBar"></activity>
+            android:theme="@style/AppTheme.quizResuldDark"></activity>
         <activity
             android:name=".Dashboard"
             android:theme="@style/AppTheme.noActionBar"></activity>

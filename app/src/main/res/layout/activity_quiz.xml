@@ -9,13 +9,19 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/quit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -142,14 +148,12 @@
                     android:id="@+id/option1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginRight="24dp"
+                    android:layout_marginEnd="16dp"
                     android:background="@drawable/quiz_text_box"
                     android:onClick="onClick"
-                    android:padding="15dp"
+                    android:padding="20dp"
                     android:text="Alright"
                     android:textColor="@color/opt_text"
                     android:textSize="17sp"
@@ -165,7 +169,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/quiz_text_box"
                     android:onClick="onClick"
-                    android:padding="15dp"
+                    android:padding="20dp"
                     android:text="ok"
                     android:textColor="@color/opt_text"
                     android:textSize="17sp"
@@ -181,7 +185,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/quiz_text_box"
                     android:onClick="onClick"
-                    android:padding="15dp"
+                    android:padding="20dp"
                     android:text="yooooo"
                     android:textColor="@color/opt_text"
                     android:textSize="17sp"
@@ -196,7 +200,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/quiz_text_box"
                     android:onClick="onClick"
-                    android:padding="15dp"
+                    android:padding="20dp"
                     android:text="yuli"
                     android:textColor="@color/opt_text"
                     android:textSize="17sp"
@@ -204,60 +208,65 @@
                     app:layout_constraintStart_toStartOf="@+id/option3"
                     app:layout_constraintTop_toBottomOf="@+id/option3" />
 
-                <Button
-                    android:id="@+id/quit"
-                    android:layout_width="0dp"
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/spin_wheelbtn"
-                    android:onClick="onClick"
-                    android:padding="15dp"
-                    android:text="Cancel"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    app:layout_constraintEnd_toStartOf="@+id/next"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@+id/option4"
-                    app:layout_constraintTop_toBottomOf="@+id/option4" />
+                    android:layout_marginBottom="8dp"
+                    app:adSize="BANNER"
+                    app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/option4">
 
-                <Button
-                    android:id="@+id/next"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/invitebtn"
-                    android:onClick="onClick"
-                    android:padding="15dp"
-                    android:text="Next"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    app:layout_constraintEnd_toEndOf="@+id/option4"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/quit"
-                    app:layout_constraintTop_toBottomOf="@+id/option4" />
+                </com.google.android.gms.ads.AdView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
     </ScrollView>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/quit"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        android:layout_marginBottom="10dp"
+        android:background="@color/darkBackground"
+        android:drawableLeft="@drawable/ic_baseline_power_settings_new_24"
+        android:drawableTint="@color/opt_text"
+        android:onClick="onClick"
+        android:padding="13dp"
+        android:text="Exit Quiz"
+        android:textColor="@color/opt_text"
+        android:textSize="23sp"
+        app:fontFamily="@font/carter_one"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/next"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btndesign"
+        android:onClick="onClick"
+        android:padding="13dp"
+        android:text="Next"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textColor="#FFFFFF"
+        android:drawableRight="@drawable/ic_baseline_arrow_forward_24"
+        android:drawableTint="#FFFFFF"
+        android:textSize="24sp"
+        app:fontFamily="@font/carter_one"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/quit" />
 
-    </com.google.android.gms.ads.AdView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

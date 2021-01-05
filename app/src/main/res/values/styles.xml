@@ -20,6 +20,12 @@
         <item name="colorPrimaryDark">@color/colorBackground</item>
         <item name="colorAccent">@color/colorBackground</item>
     </style>
+    <style name="AppTheme.quizResuldDark" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/darkBackground</item>
+        <item name="colorPrimaryDark">@color/darkBackground</item>
+        <item name="colorAccent">@color/darkBackground</item>
+    </style>
 
     <style name="navigationTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
