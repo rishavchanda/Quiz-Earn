@@ -170,14 +170,22 @@ public class Quiz extends AppCompatActivity {
     }
 
     void showAnswer(){
-        if(question.getAnswer().equals(binding.option1.getText().toString()))
+        if(question.getAnswer().equals(binding.option1.getText().toString())){
             binding.option1.setBackground(getResources().getDrawable(R.drawable.right_opt));
-        else if(question.getAnswer().equals(binding.option2.getText().toString()))
+            binding.option1.setTextColor(getResources().getColor(R.color.light_green));
+        }
+        else if(question.getAnswer().equals(binding.option2.getText().toString())){
             binding.option2.setBackground(getResources().getDrawable(R.drawable.right_opt));
-        else if(question.getAnswer().equals(binding.option3.getText().toString()))
+            binding.option2.setTextColor(getResources().getColor(R.color.light_green));
+        }
+        else if(question.getAnswer().equals(binding.option3.getText().toString())){
             binding.option3.setBackground(getResources().getDrawable(R.drawable.right_opt));
-        else if(question.getAnswer().equals(binding.option4.getText().toString()))
+            binding.option3.setTextColor(getResources().getColor(R.color.light_green));
+        }
+        else if(question.getAnswer().equals(binding.option4.getText().toString())){
         binding.option4.setBackground(getResources().getDrawable(R.drawable.right_opt));
+            binding.option4.setTextColor(getResources().getColor(R.color.light_green));
+        }
     }
 
     void setNextQuestion(){
@@ -201,17 +209,23 @@ public class Quiz extends AppCompatActivity {
         if(selectedAnswer.equals(question.getAnswer())){
             correctAnswers++;
             textview.setBackground(getResources().getDrawable(R.drawable.right_opt));
+            textview.setTextColor(getResources().getColor(R.color.light_green));
         }else {
             showAnswer();
             textview.setBackground(getResources().getDrawable(R.drawable.wrong_opt));
+            textview.setTextColor(getResources().getColor(R.color.light_red));
         }
     }
 
     void reset(){
-        binding.option1.setBackground(getResources().getDrawable(R.drawable.textbox));
-        binding.option2.setBackground(getResources().getDrawable(R.drawable.textbox));
-        binding.option3.setBackground(getResources().getDrawable(R.drawable.textbox));
-        binding.option4.setBackground(getResources().getDrawable(R.drawable.textbox));
+        binding.option1.setBackground(getResources().getDrawable(R.drawable.quiz_text_box));
+        binding.option2.setBackground(getResources().getDrawable(R.drawable.quiz_text_box));
+        binding.option3.setBackground(getResources().getDrawable(R.drawable.quiz_text_box));
+        binding.option4.setBackground(getResources().getDrawable(R.drawable.quiz_text_box));
+        binding.option1.setTextColor(getResources().getColor(R.color.opt_text));
+        binding.option2.setTextColor(getResources().getColor(R.color.opt_text));
+        binding.option3.setTextColor(getResources().getColor(R.color.opt_text));
+        binding.option4.setTextColor(getResources().getColor(R.color.opt_text));
     }
 
     public void onClick (View view){
