@@ -12,4 +12,6 @@
     <color name="txtbox_bor">#848db3</color>
     <color name="light_green">#00FF88</color>
     <color name="light_red">#FF2407</color>
+    <color name="bluishgreen">#00FFE1</color>
+    <color name="greenblue">#00FF66</color>
 </resources>

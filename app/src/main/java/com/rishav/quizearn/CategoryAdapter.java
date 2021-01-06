@@ -80,6 +80,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                             if ((wifiCon != null && wifiCon.isConnected()) || (mobileCon != null && mobileCon.isConnected())){
                                 Intent intent = new Intent(context,Quiz.class);
                                 intent.putExtra("catId",model.getCategoryId());
+                                intent.putExtra("name",model.getCategoryName());
                                 context.startActivity(intent);
                             }
                         }

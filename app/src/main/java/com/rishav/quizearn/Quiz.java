@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.SwitchPreference;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import com.rishav.quizearn.databinding.ActivityQuizBinding;
 
 import java.util.ArrayList;
@@ -40,6 +42,12 @@ public class Quiz extends AppCompatActivity {
     FirebaseFirestore database;
     private InterstitialAd mInterstitialAd;
 
+    CircularProgressBar circularProgressBar;
+    int i=0;
+
+    String ctName;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,41 @@ public class Quiz extends AppCompatActivity {
         setContentView(binding.getRoot());
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        circularProgressBar = findViewById(R.id.circularProgressBar);
+// Set Progress
+        //circularProgressBar.setProgress(65f);
+// or with animation
+        //circularProgressBar.setProgressWithAnimation(65f, (long) 1000); // =1s
+
+// Set Progress Max
+        //circularProgressBar.setProgressMax(200f);
+
+// Set ProgressBar Color
+       // circularProgressBar.setProgressBarColor(Color.BLACK);
+// or with gradient
+        circularProgressBar.setProgressBarColorStart(getResources().getColor(R.color.bluishgreen));
+        circularProgressBar.setProgressBarColorEnd(getResources().getColor(R.color.greenblue));
+        circularProgressBar.setProgressBarColorDirection(CircularProgressBar.GradientDirection.RIGHT_TO_LEFT);
+        circularProgressBar.setProgressMax(100);
+
+// Set background ProgressBar Color
+        circularProgressBar.setBackgroundProgressBarColor(getResources().getColor(R.color.opt_text));
+// or with gradient
+       // circularProgressBar.setBackgroundProgressBarColorStart(Color.WHITE);
+       // circularProgressBar.setBackgroundProgressBarColorEnd(Color.RED);
+       // circularProgressBar.setBackgroundProgressBarColorDirection(CircularProgressBar.GradientDirection.TOP_TO_BOTTOM);
+
+// Set Width
+        circularProgressBar.setProgressBarWidth(7f); // in DP
+        circularProgressBar.setBackgroundProgressBarWidth(7f); // in DP
+
+// Other
+        circularProgressBar.setRoundBorder(true);
+        //circularProgressBar.setStartAngle(180f);
+        //circularProgressBar.setProgressDirection(CircularProgressBar.ProgressDirection.TO_RIGHT);
+
+
 
 
 
@@ -90,6 +133,7 @@ public class Quiz extends AppCompatActivity {
         final String catId = getIntent().getStringExtra("catId");
         Random random = new Random();
         final int rand = random.nextInt(5);
+        binding.categoryName.setText(getIntent().getStringExtra("name"));
         database.collection("categories")
                 .document(catId)
                 .collection("questions")
@@ -143,14 +187,21 @@ public class Quiz extends AppCompatActivity {
 
     }
     void resetTimer(){
+        i=0;
+        circularProgressBar.setProgressMax(100);
+        circularProgressBar.setProgress(i);
         timer = new CountDownTimer(30000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
+                i++;
                 binding.timer.setText(String.valueOf(millisUntilFinished/1000));
+                circularProgressBar.setProgressWithAnimation((float)i*100/(30000/1000), (long) 1000);
             }
 
             @Override
             public void onFinish() {
+                i=0;
+                circularProgressBar.setProgress(0);
                 reset();
                 if((index+1) < questions.size()){
                     index++;
@@ -194,7 +245,10 @@ public class Quiz extends AppCompatActivity {
         }
         timer.start();
         if(index < questions.size()){
-            binding.quixcounter.setText(String.format("%d/%d",(index+1),questions.size()));
+            binding.quixcounter.setText("/"+questions.size());
+           // binding.quixcounter.setText(String.format("%d/%d",(index+1),questions.size()));
+            binding.currentNo.setText(""+(index+1));
+            binding.questionNo.setText("Q"+(index+1)+".");
             question = questions.get(index);
             binding.question.setText(question.getQuestion());
             binding.option1.setText(question.getOption1());

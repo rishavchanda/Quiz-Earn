@@ -31,8 +31,8 @@
                     android:id="@+id/linearLayout2"
                     android:layout_width="match_parent"
 
-                    android:layout_height="56dp"
-                    android:background="@color/colorPrimary"
+                    android:layout_height="wrap_content"
+                    android:background="@color/darkBackground"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -43,113 +43,130 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
+                        <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                            android:id="@+id/circularProgressBar"
+                            android:layout_width="65dp"
+                            android:layout_height="65dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            app:cpb_background_progressbar_color="#b6bbd8"
+                            app:cpb_background_progressbar_width="5dp"
+                            app:cpb_progress_direction="to_right"
+                            app:cpb_progressbar_color="#3f51b5"
+                            app:cpb_progressbar_width="10dp"
+                            app:cpb_round_border="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <TextView
                             android:id="@+id/timer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="20dp"
-                            android:drawableLeft="@drawable/ic_baseline_alarm_24"
                             android:drawablePadding="5dp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text=""
+                            android:fontFamily="@font/carter_one"
+                            android:text="29"
                             android:textColor="#FFFFFF"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:drawableTint="#FFFFFF"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@+id/circularProgressBar"
+                            app:layout_constraintEnd_toEndOf="@+id/circularProgressBar"
+                            app:layout_constraintStart_toStartOf="@+id/circularProgressBar"
+                            app:layout_constraintTop_toTopOf="@+id/circularProgressBar" />
+
+                        <TextView
+                            android:id="@+id/categoryName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="@font/aladin"
+                            android:text="Maths Quiz"
+                            android:textColor="@color/txtbox_bor"
+                            android:textSize="25sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/circularProgressBar"
+                            app:layout_constraintEnd_toStartOf="@+id/circularProgressBar"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="@+id/circularProgressBar" />
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/carter_one"
+                            android:text="Question"
+                            android:textColor="#E1DBDB"
+                            android:textSize="35sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/categoryName"
+                            app:layout_constraintTop_toBottomOf="@+id/circularProgressBar" />
+
+                        <TextView
+                            android:id="@+id/currentNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="13dp"
+                            android:fontFamily="@font/carter_one"
+                            android:text="10"
+                            android:textColor="#91ED94"
+                            android:textSize="45sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView19"
+                            app:layout_constraintStart_toEndOf="@+id/textView19"
+                            app:layout_constraintTop_toTopOf="@+id/textView19" />
 
                         <TextView
                             android:id="@+id/quixcounter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="20dp"
-                            android:drawableRight="@drawable/ic_baseline_help_24"
-                            android:drawablePadding="5dp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text=""
-                            android:textColor="#FFFFFF"
-                            android:textSize="20sp"
-                            app:drawableTint="#FFFFFF"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:layout_marginStart="5dp"
+                            android:fontFamily="@font/carter_one"
+                            android:text="/10"
+                            android:textColor="@color/txtbox_bor"
+                            android:textSize="35sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/currentNo"
+                            app:layout_constraintStart_toEndOf="@+id/currentNo"
+                            app:layout_constraintTop_toTopOf="@+id/currentNo" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="@drawable/backgroundbottom"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-                <View
-                    android:id="@+id/view3"
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="@drawable/box"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
                 <TextView
                     android:id="@+id/question"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginBottom="24dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/carter_one"
+                    android:gravity="start"
                     android:text=""
                     android:textColor="@color/text_white"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view3"
-                    app:layout_constraintEnd_toEndOf="@+id/view3"
-                    app:layout_constraintStart_toStartOf="@+id/view3"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/questionNo"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginRight="24dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view3"
-                    app:layout_constraintEnd_toEndOf="@+id/view3"
-                    app:layout_constraintTop_toBottomOf="@+id/view3"
-                    app:srcCompat="@drawable/audiencepoll" />
 
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginLeft="24dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view3"
-                    app:layout_constraintStart_toStartOf="@+id/view3"
-                    app:layout_constraintTop_toBottomOf="@+id/view3"
-                    app:srcCompat="@drawable/fiftyfiftyline" />
+                <TextView
+                    android:id="@+id/questionNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/carter_one"
+                    android:gravity="start"
+                    android:text="Q1."
+                    android:textColor="@color/text_white"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/question" />
 
                 <TextView
                     android:id="@+id/option1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="40dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/quiz_text_box"
                     android:onClick="onClick"
@@ -160,7 +177,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+                    app:layout_constraintTop_toBottomOf="@+id/question" />
 
                 <TextView
                     android:id="@+id/option2"
@@ -234,6 +251,8 @@
         android:id="@+id/quit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@color/darkBackground"
         android:drawableLeft="@drawable/ic_baseline_power_settings_new_24"
         android:drawableTint="@color/opt_text"
@@ -241,7 +260,7 @@
         android:padding="13dp"
         android:text="Exit Quiz"
         android:textColor="@color/opt_text"
-        android:textSize="23sp"
+        android:textSize="20sp"
         app:fontFamily="@font/carter_one"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/next"
@@ -253,14 +272,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btndesign"
-        android:onClick="onClick"
-        android:padding="13dp"
-        android:text="Next"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
-        android:textColor="#FFFFFF"
         android:drawableRight="@drawable/ic_baseline_arrow_forward_24"
         android:drawableTint="#FFFFFF"
+        android:onClick="onClick"
+        android:padding="13dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Next"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:fontFamily="@font/carter_one"
         app:layout_constraintBottom_toBottomOf="parent"
