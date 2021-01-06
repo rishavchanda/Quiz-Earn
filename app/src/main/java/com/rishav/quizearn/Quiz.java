@@ -130,10 +130,13 @@ public class Quiz extends AppCompatActivity {
 
         database = FirebaseFirestore.getInstance();
         questions=new ArrayList<>();
-        final String catId = getIntent().getStringExtra("catId");
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        final String catId = extras.getString("catId");
+        final String catName = extras.getString("catName");
         Random random = new Random();
         final int rand = random.nextInt(5);
-        binding.categoryName.setText(getIntent().getStringExtra("name"));
+        binding.categoryName.setText(catName+" "+"Quiz");
         database.collection("categories")
                 .document(catId)
                 .collection("questions")

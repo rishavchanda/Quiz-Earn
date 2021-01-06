@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,8 +80,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                             NetworkInfo mobileCon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
                             if ((wifiCon != null && wifiCon.isConnected()) || (mobileCon != null && mobileCon.isConnected())){
                                 Intent intent = new Intent(context,Quiz.class);
-                                intent.putExtra("catId",model.getCategoryId());
-                                intent.putExtra("name",model.getCategoryName());
+                                Bundle extras = new Bundle();
+                                extras.putString("catId",model.getCategoryId());
+                                extras.putString("catName",model.getCategoryName());
+                                intent.putExtras(extras);
                                 context.startActivity(intent);
                             }
                         }
