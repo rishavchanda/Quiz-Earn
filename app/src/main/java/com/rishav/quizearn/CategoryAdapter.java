@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +55,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
                 if ((wifiCon != null && wifiCon.isConnected()) || (mobileCon != null && mobileCon.isConnected())){
                     Intent intent = new Intent(context,Quiz.class);
-                    intent.putExtra("catId",model.getCategoryId());
+                    Bundle extras = new Bundle();
+                    extras.putString("catId",model.getCategoryId());
+                    extras.putString("catName",model.getCategoryName());
+                    intent.putExtras(extras);
                     context.startActivity(intent);
 
                 }else{
