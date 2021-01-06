@@ -58,10 +58,12 @@ public class Result extends AppCompatActivity {
 
         int correctAnswers = getIntent().getIntExtra("correct",0);
         int totalQuestions= getIntent().getIntExtra("total", 0);
-
         long points = correctAnswers*POINTS;
+        binding.score1.setText(correctAnswers+" ");
+        binding.score.setText("/"+" "+totalQuestions);
 
-        binding.score.setText(String.format("%d/%d",correctAnswers,totalQuestions));
+
+       // binding.score.setText(String.format("%d/%d",correctAnswers,totalQuestions));
         binding.coins.setText(String.valueOf(points));
 
         FirebaseFirestore database = FirebaseFirestore.getInstance();

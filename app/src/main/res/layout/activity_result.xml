@@ -30,13 +30,14 @@
                     android:id="@+id/animationView"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
-                    app:lottie_speed="0.5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
+                    app:lottie_speed="0.5"
                     app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_htEgHu.json" />
+
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/animationView4"
                     android:layout_width="match_parent"
@@ -49,7 +50,6 @@
                     app:lottie_url="https://assets7.lottiefiles.com/packages/lf20_30iie6.json" />
 
 
-
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
@@ -57,9 +57,9 @@
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
                     android:text="Congratulations!"
-                    app:fontFamily="@font/carter_one"
                     android:textColor="@color/text_white"
                     android:textSize="30sp"
+                    app:fontFamily="@font/carter_one"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/animationView" />
@@ -71,25 +71,41 @@
                     android:layout_margin="10dp"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:textColor="@color/opt_text"
-                    app:fontFamily="@font/roboto_bold"
                     android:text="YOUR SCORE"
+                    android:textColor="@color/opt_text"
                     android:textSize="20sp"
+                    app:fontFamily="@font/roboto_bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView8"
                     app:layout_constraintStart_toStartOf="@+id/textView8"
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+                <TextView
+                    android:id="@+id/score1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8 "
+                    android:textColor="@color/bluishgreen"
+                    android:textSize="35sp"
+                    app:fontFamily="@font/carter_one"
+                    app:layout_constraintBottom_toBottomOf="@+id/score"
+                    app:layout_constraintEnd_toStartOf="@+id/score"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@+id/textView9"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
                 <TextView
                     android:id="@+id/score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="8/10"
-                    app:fontFamily="@font/carter_one"
+                    android:text="/ 10"
                     android:textColor="@color/text_white"
                     android:textSize="30sp"
+                    app:fontFamily="@font/carter_one"
                     app:layout_constraintEnd_toEndOf="@+id/textView9"
-                    app:layout_constraintStart_toStartOf="@+id/textView9"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/score1"
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
                 <TextView
@@ -100,8 +116,8 @@
                     android:gravity="center"
                     android:text="EARNED COINS"
                     android:textColor="@color/opt_text"
-                    app:fontFamily="@font/roboto_bold"
                     android:textSize="20sp"
+                    app:fontFamily="@font/roboto_bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView8"
                     app:layout_constraintStart_toStartOf="@+id/textView8"
                     app:layout_constraintTop_toBottomOf="@+id/score" />
@@ -112,11 +128,11 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/coins"
                     android:drawablePadding="10dp"
-                    app:fontFamily="@font/carter_one"
-                    android:textColor="@color/text_white"
                     android:gravity="center"
                     android:text="500"
+                    android:textColor="@color/text_white"
                     android:textSize="30sp"
+                    app:fontFamily="@font/carter_one"
                     app:layout_constraintEnd_toEndOf="@+id/textView11"
                     app:layout_constraintStart_toStartOf="@+id/textView11"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
