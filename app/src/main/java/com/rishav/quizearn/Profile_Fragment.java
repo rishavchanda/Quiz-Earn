@@ -134,11 +134,15 @@ public class Profile_Fragment extends Fragment {
                                                        @Override
                                                        public void onSuccess(Void aVoid) {
                                                            Toast.makeText(getContext(), "New Details Updated.", Toast.LENGTH_SHORT).show();
+                                                           binding.updateEmailtxt.setText("");
+                                                           binding.updateFullname.setText("");
                                                            updateprofilepic();
                                                        }
                                                    }).addOnFailureListener(new OnFailureListener() {
                                                        @Override
                                                        public void onFailure(@NonNull Exception e) {
+                                                           binding.updateEmailtxt.setText("");
+                                                           binding.updateFullname.setText("");
                                                            Toast.makeText(getContext(), "Email is not updated please try again"+e.getMessage(), Toast.LENGTH_SHORT).show();
                                                        }
                                                    });
@@ -146,6 +150,8 @@ public class Profile_Fragment extends Fragment {
                                            }).addOnFailureListener(new OnFailureListener() {
                                                @Override
                                                public void onFailure(@NonNull Exception e) {
+                                                   binding.updateEmailtxt.setText("");
+                                                   binding.updateFullname.setText("");
                                                    Toast.makeText(getContext(), "Name is not updated please try again"+e.getMessage(), Toast.LENGTH_SHORT).show();
                                                }
                                            });
@@ -154,11 +160,15 @@ public class Profile_Fragment extends Fragment {
                                }).addOnFailureListener(new OnFailureListener() {
                            @Override
                            public void onFailure(@NonNull Exception e) {
+                               binding.updateEmailtxt.setText("");
+                               binding.updateFullname.setText("");
                                Toast.makeText(getContext(), "Email is not updated.."+e.getMessage(), Toast.LENGTH_SHORT).show();
                            }
                        });
                    }
                    else {
+                       binding.updateEmailtxt.setText("");
+                       binding.updateFullname.setText("");
                        Toast.makeText(getContext(), "Your email is not verified verify your email ...", Toast.LENGTH_SHORT).show();
                       // FirebaseAuth auth = FirebaseAuth.getInstance();
                        //final FirebaseUser user = auth.getCurrentUser();

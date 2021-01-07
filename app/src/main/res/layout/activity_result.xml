@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="8 "
-                    android:textColor="@color/bluishgreen"
+                    android:textColor="@color/greenblue"
                     android:textSize="35sp"
                     app:fontFamily="@font/carter_one"
                     app:layout_constraintBottom_toBottomOf="@+id/score"

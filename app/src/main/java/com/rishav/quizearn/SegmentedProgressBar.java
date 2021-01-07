@@ -117,10 +117,9 @@ public class SegmentedProgressBar extends View {
         if (bgRect != null) {
 
             canvas.drawRoundRect(bgRect, cornerRadius, cornerRadius, progressBarBackgroundPaint);
-
             for (Integer enabledDivision : enabledDivisions) {
                 if (enabledDivision < divisions) {
-                    float left = 0;
+                    float left=0;
                     if (enabledDivision != 0) {
                         left = dividerPositions.get(enabledDivision - 1) + dividerWidth;
                     }

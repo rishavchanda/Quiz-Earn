@@ -57,9 +57,11 @@ public class Quiz extends AppCompatActivity {
 
         circularProgressBar = findViewById(R.id.circularProgressBar);
         mSegmentedProgressBar = findViewById(R.id.segmented_pb_1);
+        mSegmentedProgressBar.setBackgroundColor(getResources().getColor(R.color.txtbox_bor));
         arrayList.add(progress);
-        //mSegmentedProgressBar.setEnabledDivisions(arrayList);
         addprogressBar();
+        //mSegmentedProgressBar.setEnabledDivisions(arrayList);
+
 
 
 
@@ -217,6 +219,8 @@ public class Quiz extends AppCompatActivity {
     }
 
     void showAnswer(){
+        mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_green));
+        mSegmentedProgressBar.setEnabledDivisions(arrayList);
         if(question.getAnswer().equals(binding.option1.getText().toString())){
             binding.option1.setBackground(getResources().getDrawable(R.drawable.right_opt));
             binding.option1.setTextColor(getResources().getColor(R.color.light_green));
@@ -262,11 +266,13 @@ public class Quiz extends AppCompatActivity {
             textview.setBackground(getResources().getDrawable(R.drawable.right_opt));
             textview.setTextColor(getResources().getColor(R.color.light_green));
             mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_green));
+            mSegmentedProgressBar.setEnabledDivisions(arrayList);
         }else {
             showAnswer();
             textview.setBackground(getResources().getDrawable(R.drawable.wrong_opt));
             textview.setTextColor(getResources().getColor(R.color.light_red));
             mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_red));
+            mSegmentedProgressBar.setEnabledDivisions(arrayList);
         }
     }
 
@@ -279,7 +285,7 @@ public class Quiz extends AppCompatActivity {
         binding.option2.setTextColor(getResources().getColor(R.color.opt_text));
         binding.option3.setTextColor(getResources().getColor(R.color.opt_text));
         binding.option4.setTextColor(getResources().getColor(R.color.opt_text));
-        //mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_green));
+        mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.bluishgreen));
     }
 
     public void onClick (View view){
@@ -324,7 +330,6 @@ public class Quiz extends AppCompatActivity {
         }
         progress=progress+1;
         mSegmentedProgressBar.setEnabledDivisions(arrayList);
-
     }
 
     @Override

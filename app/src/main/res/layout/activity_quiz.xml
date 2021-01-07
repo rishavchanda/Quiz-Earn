@@ -146,7 +146,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:progressBarBackgroundColor="@color/opt_text"
-                            app:progressBarColor="@color/bluishgreen" />
+                            app:progressBarColor="@color/bluishgreen"
+                             />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
