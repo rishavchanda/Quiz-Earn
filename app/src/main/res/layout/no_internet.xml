@@ -26,7 +26,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_jsTRZT.json" />
+                app:lottie_rawRes="@raw/no_internet"/>
 
             <TextView
                 android:id="@+id/textView5"
