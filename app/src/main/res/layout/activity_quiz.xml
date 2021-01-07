@@ -93,11 +93,12 @@
                             android:id="@+id/textView19"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="13dp"
                             android:fontFamily="@font/carter_one"
                             android:text="Question"
                             android:textColor="#E1DBDB"
                             android:textSize="35sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintBottom_toTopOf="@+id/segmented_pb_1"
                             app:layout_constraintStart_toStartOf="@+id/categoryName"
                             app:layout_constraintTop_toBottomOf="@+id/circularProgressBar" />
 
@@ -108,7 +109,7 @@
                             android:layout_marginStart="13dp"
                             android:fontFamily="@font/carter_one"
                             android:text="10"
-                            android:textColor="#91ED94"
+                            android:textColor="@color/greenblue"
                             android:textSize="45sp"
                             app:layout_constraintBottom_toBottomOf="@+id/textView19"
                             app:layout_constraintStart_toEndOf="@+id/textView19"
@@ -126,6 +127,27 @@
                             app:layout_constraintBottom_toBottomOf="@+id/currentNo"
                             app:layout_constraintStart_toEndOf="@+id/currentNo"
                             app:layout_constraintTop_toTopOf="@+id/currentNo" />
+
+
+                        <com.rishav.quizearn.SegmentedProgressBar
+                            android:id="@+id/segmented_pb_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:layout_centerInParent="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            app:cornerRadius="20dp"
+                            app:dividerColor="@color/darkBackground"
+                            app:dividerWidth="2dp"
+                            app:divisions="10"
+                            app:isDividerEnabled="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:progressBarBackgroundColor="@color/opt_text"
+                            app:progressBarColor="@color/bluishgreen" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

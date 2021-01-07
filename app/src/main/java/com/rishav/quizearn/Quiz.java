@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -43,11 +42,10 @@ public class Quiz extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
 
     CircularProgressBar circularProgressBar;
+    SegmentedProgressBar mSegmentedProgressBar;
+    ArrayList<Integer> arrayList=new ArrayList<>();;
+    int progress;
     int i=0;
-
-    String ctName;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,34 +56,25 @@ public class Quiz extends AppCompatActivity {
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
 
         circularProgressBar = findViewById(R.id.circularProgressBar);
-// Set Progress
-        //circularProgressBar.setProgress(65f);
-// or with animation
-        //circularProgressBar.setProgressWithAnimation(65f, (long) 1000); // =1s
+        mSegmentedProgressBar = findViewById(R.id.segmented_pb_1);
+        arrayList.add(progress);
+        //mSegmentedProgressBar.setEnabledDivisions(arrayList);
+        addprogressBar();
 
-// Set Progress Max
-        //circularProgressBar.setProgressMax(200f);
 
-// Set ProgressBar Color
-       // circularProgressBar.setProgressBarColor(Color.BLACK);
-// or with gradient
+
+        //with gradient
         circularProgressBar.setProgressBarColorStart(getResources().getColor(R.color.bluishgreen));
         circularProgressBar.setProgressBarColorEnd(getResources().getColor(R.color.greenblue));
         circularProgressBar.setProgressBarColorDirection(CircularProgressBar.GradientDirection.RIGHT_TO_LEFT);
         circularProgressBar.setProgressMax(100);
-
-// Set background ProgressBar Color
         circularProgressBar.setBackgroundProgressBarColor(getResources().getColor(R.color.opt_text));
-// or with gradient
-       // circularProgressBar.setBackgroundProgressBarColorStart(Color.WHITE);
-       // circularProgressBar.setBackgroundProgressBarColorEnd(Color.RED);
-       // circularProgressBar.setBackgroundProgressBarColorDirection(CircularProgressBar.GradientDirection.TOP_TO_BOTTOM);
 
-// Set Width
+       // Set Width
         circularProgressBar.setProgressBarWidth(7f); // in DP
         circularProgressBar.setBackgroundProgressBarWidth(7f); // in DP
 
-// Other
+       // Other
         circularProgressBar.setRoundBorder(true);
         //circularProgressBar.setStartAngle(180f);
         //circularProgressBar.setProgressDirection(CircularProgressBar.ProgressDirection.TO_RIGHT);
@@ -159,7 +148,7 @@ public class Quiz extends AppCompatActivity {
                                 for(DocumentSnapshot snapshot : queryDocumentSnapshots){
                                     Question question= snapshot.toObject(Question.class);
                                     questions.add(question);
-                                 }
+                                }
                             setNextQuestion();
                             dialog.dismiss();
                             System.out.println(rand);
@@ -189,7 +178,9 @@ public class Quiz extends AppCompatActivity {
 
 
     }
+
     void resetTimer(){
+        //Pause the progress
         i=0;
         circularProgressBar.setProgressMax(100);
         circularProgressBar.setProgress(i);
@@ -199,10 +190,12 @@ public class Quiz extends AppCompatActivity {
                 i++;
                 binding.timer.setText(String.valueOf(millisUntilFinished/1000));
                 circularProgressBar.setProgressWithAnimation((float)i*100/(30000/1000), (long) 1000);
+
             }
 
             @Override
             public void onFinish() {
+                addprogressBar();
                 i=0;
                 circularProgressBar.setProgress(0);
                 reset();
@@ -248,6 +241,7 @@ public class Quiz extends AppCompatActivity {
         }
         timer.start();
         if(index < questions.size()){
+            mSegmentedProgressBar.setDivisions(questions.size());
             binding.quixcounter.setText("/"+questions.size());
            // binding.quixcounter.setText(String.format("%d/%d",(index+1),questions.size()));
             binding.currentNo.setText(""+(index+1));
@@ -267,10 +261,12 @@ public class Quiz extends AppCompatActivity {
             correctAnswers++;
             textview.setBackground(getResources().getDrawable(R.drawable.right_opt));
             textview.setTextColor(getResources().getColor(R.color.light_green));
+            mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_green));
         }else {
             showAnswer();
             textview.setBackground(getResources().getDrawable(R.drawable.wrong_opt));
             textview.setTextColor(getResources().getColor(R.color.light_red));
+            mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_red));
         }
     }
 
@@ -283,6 +279,7 @@ public class Quiz extends AppCompatActivity {
         binding.option2.setTextColor(getResources().getColor(R.color.opt_text));
         binding.option3.setTextColor(getResources().getColor(R.color.opt_text));
         binding.option4.setTextColor(getResources().getColor(R.color.opt_text));
+        //mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_green));
     }
 
     public void onClick (View view){
@@ -298,6 +295,7 @@ public class Quiz extends AppCompatActivity {
                       checkAnswer(selected);
                       break;
                   case R.id.next:
+                      addprogressBar();
                       reset();
                       timer.cancel();
                       if((index+1) < questions.size()){
@@ -313,6 +311,20 @@ public class Quiz extends AppCompatActivity {
                       }
                       break;
               }
+    }
+
+    public void addprogressBar(){
+        if(progress==0)
+        {
+            arrayList.add(progress);
+        }
+        else
+        {
+            arrayList.add(progress);
+        }
+        progress=progress+1;
+        mSegmentedProgressBar.setEnabledDivisions(arrayList);
+
     }
 
     @Override
