@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -47,6 +49,7 @@ public class Quiz extends AppCompatActivity {
     int progress;
     int i=0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +65,7 @@ public class Quiz extends AppCompatActivity {
         addprogressBar();
         //mSegmentedProgressBar.setEnabledDivisions(arrayList);
 
-
-
+        hideCorrectAndeWrongAnimations();
 
         //with gradient
         circularProgressBar.setProgressBarColorStart(getResources().getColor(R.color.bluishgreen));
@@ -181,6 +183,18 @@ public class Quiz extends AppCompatActivity {
 
     }
 
+    private void hideCorrectAndeWrongAnimations() {
+        binding.option1correct.setVisibility(View.GONE);
+        binding.option2correct.setVisibility(View.GONE);
+        binding.option3correct.setVisibility(View.GONE);
+        binding.option4correct.setVisibility(View.GONE);
+        binding.option1wrong.setVisibility(View.GONE);
+        binding.option2wrong.setVisibility(View.GONE);
+        binding.option3wrong.setVisibility(View.GONE);
+        binding.option4wrong.setVisibility(View.GONE);
+
+    }
+
     void resetTimer(){
         //Pause the progress
         i=0;
@@ -267,16 +281,37 @@ public class Quiz extends AppCompatActivity {
             textview.setTextColor(getResources().getColor(R.color.light_green));
             mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_green));
             mSegmentedProgressBar.setEnabledDivisions(arrayList);
+            int id = textview.getId();
+            if (id==R.id.option1){
+                binding.option1correct.setVisibility(View.VISIBLE);
+            }else if(id==R.id.option2){
+                binding.option2correct.setVisibility(View.VISIBLE);
+            }else if(id==R.id.option3){
+                binding.option3correct.setVisibility(View.VISIBLE);
+            }else if(id==R.id.option4){
+                binding.option4correct.setVisibility(View.VISIBLE);
+            }
         }else {
             showAnswer();
             textview.setBackground(getResources().getDrawable(R.drawable.wrong_opt));
             textview.setTextColor(getResources().getColor(R.color.light_red));
             mSegmentedProgressBar.setProgressBarColor(getResources().getColor(R.color.light_red));
             mSegmentedProgressBar.setEnabledDivisions(arrayList);
+            int id = textview.getId();
+            if (id==R.id.option1){
+                binding.option1wrong.setVisibility(View.VISIBLE);
+            }else if(id==R.id.option2){
+                binding.option2wrong.setVisibility(View.VISIBLE);
+            }else if(id==R.id.option3){
+                binding.option3wrong.setVisibility(View.VISIBLE);
+            }else if(id==R.id.option4){
+                binding.option4wrong.setVisibility(View.VISIBLE);
+            }
         }
     }
 
     void reset(){
+        hideCorrectAndeWrongAnimations();
         binding.option1.setBackground(getResources().getDrawable(R.drawable.quiz_text_box));
         binding.option2.setBackground(getResources().getDrawable(R.drawable.quiz_text_box));
         binding.option3.setBackground(getResources().getDrawable(R.drawable.quiz_text_box));
