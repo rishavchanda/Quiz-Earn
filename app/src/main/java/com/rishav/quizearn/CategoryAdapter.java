@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -26,7 +28,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     Context context;
     ArrayList<CategoryModel> categoryModels;
-    AlertDialog.Builder builder;
     public CategoryAdapter(Context context, ArrayList<CategoryModel> categoryModels){
         this.context=context;
         this.categoryModels=categoryModels;
@@ -62,27 +63,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     context.startActivity(intent);
 
                 }else{
-                    builder = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.AlertDialogTheme);
                     View view = LayoutInflater.from(context).inflate(R.layout.no_internet,null);
-                   // builder.setCancelable(false);
                     builder.setView(view);
                     Button connect;
                     connect=view.findViewById(R.id.tryAgain);
-                    builder.setCancelable(true);
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.show();
+                    final AlertDialog alertDialog = builder.create();
                     connect.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            //alertDialog.dismiss();
                             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                             NetworkInfo wifiCon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
                             NetworkInfo mobileCon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
                             if ((wifiCon != null && wifiCon.isConnected()) || (mobileCon != null && mobileCon.isConnected())){
+                                alertDialog.dismiss();
                                 Intent intent = new Intent(context,Quiz.class);
                                 Bundle extras = new Bundle();
                                 extras.putString("catId",model.getCategoryId());
@@ -92,6 +87,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                             }
                         }
                     });
+
+                    if (alertDialog.getWindow() != null){
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+                    }
+                    alertDialog.show();
 
                 }
 

@@ -48,6 +48,7 @@ public class Quiz extends AppCompatActivity {
     ArrayList<Integer> arrayList=new ArrayList<>();;
     int progress;
     int i=0;
+    boolean isPressedOnce=true;
 
 
     @Override
@@ -68,11 +69,11 @@ public class Quiz extends AppCompatActivity {
         hideCorrectAndeWrongAnimations();
 
         //with gradient
-        circularProgressBar.setProgressBarColorStart(getResources().getColor(R.color.bluishgreen));
-        circularProgressBar.setProgressBarColorEnd(getResources().getColor(R.color.greenblue));
+        circularProgressBar.setProgressBarColorStart(getResources().getColor(R.color.greenblue));
+        circularProgressBar.setProgressBarColorEnd(getResources().getColor(R.color.bluishgreen));
         circularProgressBar.setProgressBarColorDirection(CircularProgressBar.GradientDirection.RIGHT_TO_LEFT);
         circularProgressBar.setProgressMax(100);
-        circularProgressBar.setBackgroundProgressBarColor(getResources().getColor(R.color.opt_text));
+        circularProgressBar.setBackgroundProgressBarColor(getResources().getColor(R.color.txtbox_bor));
 
        // Set Width
         circularProgressBar.setProgressBarWidth(7f); // in DP
@@ -254,6 +255,7 @@ public class Quiz extends AppCompatActivity {
     }
 
     void setNextQuestion(){
+        isPressedOnce=true;
         if(timer!=null){
             timer.cancel();
         }
@@ -329,11 +331,14 @@ public class Quiz extends AppCompatActivity {
                   case R.id.option2:
                   case R.id.option3:
                   case R.id.option4:
-                      if (timer!=null){
-                          timer.cancel();
+                      if (isPressedOnce){
+                          isPressedOnce=false;
+                          if (timer!=null){
+                              timer.cancel();
+                          }
+                          TextView selected = (TextView)view;
+                          checkAnswer(selected);
                       }
-                      TextView selected = (TextView)view;
-                      checkAnswer(selected);
                       break;
                   case R.id.next:
                       addprogressBar();
