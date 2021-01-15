@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     tools:context=".Dashboard"
-    tools:openDrawer="start"
     android:id="@+id/drawerLayout">
 
 
@@ -25,13 +24,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/hambergerbg" />
+
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
 
             android:layout_height="56dp"
-            android:background="@color/colorPrimary"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/transparent"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,12 +56,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    app:tint="#FFFFFF"
-                    android:background="@color/colorPrimary"
+                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_menu_24" />
+                    app:srcCompat="@drawable/ic_baseline_menu_24"
+                    app:tint="#000000" />
 
                 <TextView
                     android:id="@+id/titel"
@@ -63,7 +72,7 @@
                     android:fontFamily="@font/baloo"
                     android:gravity="center"
                     android:text="Quiz Earn"
-                    android:textColor="#fff"
+                    android:textColor="#292727"
                     android:textSize="25sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/drawerMenue"
@@ -84,7 +93,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_baseline_reply_24"
-                    app:tint="#FFFFFF"
+                    app:tint="#201F1F"
                     tools:ignore="VectorDrawableCompat" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -111,12 +120,12 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toTopOf="@id/adView"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="4dp"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/titel"
             app:layout_constraintVertical_bias="0.0" />
 
         <me.ibrahimsn.lib.SmoothBottomBar
